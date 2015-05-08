@@ -5,18 +5,19 @@
     <title>GitHub and the Web | Dashboard</title>
     <!--Library code -->
     <script src="js/lib/jquery-2.1.3.min.js"></script>
-    <script src="js/lib/d3.js" charset="utf-8"></script>
+    <script src="js/lib/dropdown-nav.js"></script>
     <script src="js/lib/queue.v1.min.js"></script>
+    <script src="js/lib/d3.js" charset="utf-8"></script>
     <script src="js/lib/d3.tip.v0.6.6.js"></script>
-    <script src="js/lib/intro.js"></script>
     <script src="js/lib/jhash-2.1.min.js"></script>
-
+    <script src="js/lib/intro.js"></script>
 
     <!-- Visualization Styles -->
-    <link rel="stylesheet" href="css/vis.css" type="text/css" media="screen">
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/preloader.css" rel="stylesheet" />
-    <link href="css/introjs.css" rel="stylesheet" />
+    <link href="css/dropdown-nav.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/preloader.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/introjs.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/vis.css" rel="stylesheet" type="text/css" media="screen">
 
     <!--Vis code-->
     <script src="js/util.js"></script>
@@ -26,125 +27,126 @@
     <script src="js/timelinevis.js"></script>
     <script src="js/filterui.js"></script>
 </head>
-<body>
-
-<div id="wrapper">
-
-    <!-- header -->
-
-    <header>
-
-        <div class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header"></div>
-                <h1><span class="navbar-header"><img class="w3c" src="images/w3c.jpg" width="100%" height="100%"></span></h1>
-
-                <div class="navbar-collapse collapse ">
-
-                    <ul style="float:right" class="navbar-header">
-                    <div>   <span class="title">CS-171 Final Project</span></div>
-                   <div>  <span class="names">Jennifer Le Hegaret, Zona Kostic, John Greeley</span></div>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- main D3 stuff -->
-
-    <div class="container">
-
-        <nav id='cssmenu'>
-            <ul>
-
-                <li class='active'><a class="links" id="one"><span>View By Status</span></a>
-                    <ul class='child'>
-                        <li class='has-sub'><a id="state_all"><span>All</span></a>
-                        </li>
-                        <li class='has-sub'><a id="state_open"><span>Unresolved Items</span></a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class='active'><a class="links"><span>View By Category</span></a>
-                    <ul class='child'>
-                        <li class='has-sub'><a id="cat_all"><span>All </span></a>
-
-                        </li>
-                        <li class='has-sub'><a id="cat_spec"><span>Spec Edits</span></a>
-                        </li>
-
-                        <li class='has-sub'><a id= "cat_test"><span>Test Suite Updates</span></a>
-                        </li>
-
-                    </ul>
-                </li>
-
-
-                <li class='active'><a class="links"><span>Sort Contributors</span></a>
-                    <ul class='child'>
-                        <li class='has-sub'><a id="sort_code"><span>By Lines of Code Touched</span></a>
-
-                        </li>
-                        <li class='has-sub'><a id="sort_issue"><span>By Issues Raised</span></a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li class='active'><a class="links"><span>About</span></a>
-                    <ul class='child'>
-                        <li class='has-sub'><a href='https://github.com/jlehegaret/cs171-project/tree/master/dashboard/data'><span>Our Data</span></a>
-                        </li>
-
-                        <li class='has-sub'><a href='https://github.com/jlehegaret/cs171-project/blob/master/process_doc/toc.md'><span>Process Document</span></a>
-                        </li>
-
-                        <li class='has-sub'><a href='screencastPage.html'><span>View the Screencast</span></a>
-                        </li>
-
-                        <li id="walkthrough" class='has-sub'><a href='#'><span>Launch a WalkThrough</span></a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-
-        </nav>
-          <div style="position: absolute; margin-top:380px; width:285px; height:108;"> <img src="images/legend.jpg"> </div>
-
-        <div id="loader-wrapper">
-            <div id="loader"></div>
-
-            <div class="loader-section section-left"></div>
-            <div class="loader-section section-right"></div>
-
-        </div>
-
-
-        <div style="float:left" id="specVis"></div>
-
-        <div id="whereAmI">
-            <p><i><span id="statusLabel">All Work Done</span>, <span id="categoryLabel">All Categories</span></i> <strong>- VIEWING</strong></p>
-            <p><i><span id="timeframeLabelStart">Date</span> to <span id="timeframeLabelEnd">Date</span></i><strong>- TIMEFRAME</strong></p>
-            <p><i><span id="wgLabel">All</span></i><strong>- WORKING GROUP</strong></p>
-            <p><i><span id="specLabel">All</span> </i><strong>- SPEC</strong></p>
-            <p><i><span id="whoLabel">All</span> </i><strong>- CONTRIBUTOR</strong></p>
-
-        <div id="whoVis">
-        </div>
-        </div>
-
-        <div id="timelineVis-zoom"></div>
-        <div  id="timelineVis-whole"></div>
-
-
-    </div>
-
-    <div class="footer">
-
+<body class="loaded">
+  <!-- This lets us load the page prettily -->
+  <div id="loader-wrapper">
+      <div id="loader"></div>
+      <div class="loader-section section-left"></div>
+      <div class="loader-section section-right"></div>
   </div>
 
-</div>
+  <!-- header, with navigation and filter options -->
+  <header>
+    <div class="topmost row">
+      <div class="cell">
+        <span id="logo">Git the Web Forward</span>
+      </div>
+      <div class="cell">
+        <nav>
+          <ul class="nav">
+            <li><a href="#">About</a>
+                <ul>
+                    <li><a href='index.html'>
+                      <span>Introduction</span></a>
+                    </li>
+                    <li id="walkthrough"><a href='#'>
+                    <span>Launch a WalkThrough</span></a>
+                    </li>
+                    <li><a href='https://github.com/jlehegaret/     cs1project'>
+                    <span>The GitHub Repo</span></a>
+                    </li>
+                    <li><a href='cs12-notes.html'>
+                    <span>CS-E12 Notes</span></a>
+                    </li>
+                    <li><a href='cs12-report.html'>
+                    <span>CS-E12 Project Report</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+              <a href="#">Reset</a>
+            </li>
+          </ul>
+        </nav>
+      </div> <!-- end of nav cell -->
+    </div> <!-- end of logo row -->
+    <div id="filters">
+      <div class="row">
+        <div class="cell">
+            <label for="status">Viewing</label>
+            <select id="status" name="status">
+              <option value="all">
+                Open and Closed Items
+              </option>
+              <option value="open">
+                Open Items Only
+              </option>
+            </select>
+        </div>
+        <div class="cell">
+            <label for="category">Of</label>
+            <select id="category" name="category">
+              <option value="all">
+                Spec Edits and Test Suite Dev.
+              </option>
+              <option value="spec">
+                Spec Edits Only
+              </option>
+              <option value="test">
+                Test Suite Dev. Only
+              </option>
+            </select>
+        </div>
+        <div class="cell">
+              <span id="wgLabel">All</span>
+              <label for="wgLabel"> Working Group</label>
+        </div>
+        <div class="cell">
+              <span id="specLabel">All</span>
+              <label for="wgLabel"> Spec</label>
+        </div>
+<!--       </div>
+      <div class="row"> -->
+        <div class="cell">
+          By <span id="whoLabel">All</span>
+            <label for="whoLabel"> Contributor</label>
+        </div>
+        <div class="cell">
+          <label for="who_sort">sorted by</label>
+              <select id="who_sort" name="who_sort">
+                <option value="code">
+                  Lines of Code
+                </option>
+                <option value="issues">
+                  Number of Issues
+                </option>
+              </select>
+        </div>
+        <div class="cell">
+          <label for="timeframeLabelStart">From</label>
+              <span id="timeframeLabelStart">Date</span>
+        </div>
+        <div class="cell">
+          <label for="timeframeLabelEnd">To</label>
+          <span id="timeframeLabelEnd">Date</span>
+        </div>
+        <!-- Holdover of how the hash interaction
+            and filtering works -->
+        <div id="whereAmI" style="display:none" class="cell">
+          <span id="statusLabel">All Work Done</span>
+          <span id="categoryLabel">All Categories</span>
+        </div>
+      </div>
+    </div> <!-- end of filters -->
+  </header>
+  <!-- main D3 stuff -->
+  <div style="float:left" id="specVis"></div>
+  <div id="whoVis"></div>
+  <div id="timelineVis-zoom"></div>
+  <div  id="timelineVis-whole"></div>
+  <footer>
+  </footer>
+
 
 <script>
     $(document).ready(function() {
@@ -174,7 +176,7 @@
 
         //Handles filter options from UI and gets and sets hash query strings
         var filterHandler = {};
-        var filter_ui = new FilterUI(d3.select("#whereAmI"), initialFilters, filterHandler);
+        var filter_ui = new FilterUI(d3.select("#filters"), initialFilters, filterHandler);
 
         var initVis = function () {
             //Handles timeline brushing
@@ -214,8 +216,6 @@
                 filter_ui.onAuthorChange(author);
             });
             $(filterHandler).bind("filterChanged", function(event, filters) {
- //                console.log("Filters changed");
- //                console.log(filters);
                 filter_ui.onFilterChange(filters);
                 spec_vis.onFilterChange(filters);
                 timeline_zoom.onFilterChange(filters);
@@ -245,44 +245,9 @@
         };
         init();
 
-        ////for navbar transition/////
-
-        $(function () {
-            $('.links').on('click', function () {
-                $(this).parent('.active').children('.child').slideToggle(function() {
-                    $(this).toggleClass('in out');
-                });
-            });
-        });
-
-        ////invisible slider/////
-
-            // var $gal   =  $("#whoVis"),
-            //         galW   = 1000,
-            //         galSW  = 7800, // here define dynamic width with svgWhoVis
-            //         wDiff  = (galSW/galW)-1,  // widths difference ratio
-            //         mPadd  = 0,  // Mousemove Padding
-            //         damp   = 2,  // Mousemove response softness
-            //         mX     = 0,   // Real mouse position
-            //         mX2    = 0,   // Modified mouse position
-            //         posX   = 0,
-            //         mmAA   = galW-(mPadd*2), // The mousemove available area
-            //         mmAAr  = (galW/mmAA);    // get available mousemove fidderence ratio
-
-            // console.log(galW, galSW)
-
-            // $gal.mousemove(function(e) {
-            //     mX = e.pageX - $(this).parent().offset().left - this.offsetLeft;
-            //     mX2 = Math.min( Math.max(100, mX-mPadd), mmAA ) * mmAAr;
-            // });
-
-            // setInterval(function(){
-            //     posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"
-            //     $gal.scrollLeft(posX*wDiff);
-            // }, 10);
 
 
-        /////walkthrought/////
+        /////walkthrough/////
 
         $(function(){
             var introguide = introJs();

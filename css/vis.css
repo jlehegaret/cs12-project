@@ -46,34 +46,6 @@
 
 }
 
-
-/*#legend:hover, #legend:focus {*/
-    /*z-index: 200;*/
-     /*bring to top when the mouse is over or*/
-       /*when it has the focus (for keyboard navigation)*/
-/*}*/
-/*#legend img {*/
-    /*border: none;*/
-
-    /*-webkit-transition: all .2s;*/
-
-    /*-webkit-transform-origin: top right;*/
-
-    /*-moz-transform-origin: top right;*/
-
-/*}*/
-/*#legend:hover img, #legend:focus img {*/
-    /*-webkit-transform: scale(2);*/
-    /*-moz-transform: scale(2);*/
-    /*box-shadow: 0px 5px 10px lightgrey;*/
-    /*background-color: white;*/
-    /*border-radius: 2px;*/
-    /*border: 2px solid #c9b3a2;*/
-    /*padding: 2px;*/
-    /*padding-right: 5px;*/
-    /*padding-left: 5px;*/
-/*}*/
-
 .axis text {
     font: 10px sans-serif;
 }

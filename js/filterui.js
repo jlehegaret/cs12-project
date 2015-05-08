@@ -40,38 +40,40 @@ FilterUI.prototype.initUI = function() {
 //////
 //Event handling code for the ui triggered filters
 //////
-FilterUI.prototype.addEventHandlers = function() {
-    var that = this;
-    document.getElementById("state_open").addEventListener("click", function(d) {
-        that.filters.state = "open";
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
-    document.getElementById("state_all").addEventListener("click", function(d) {
-        that.filters.state = "all";
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
+FilterUI.prototype.addEventHandlers = function()
+{
+  var that = this;
 
-    document.getElementById("cat_all").addEventListener("click", function(d) {
-        that.filters.category = ["test", "spec"];
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
-    document.getElementById("cat_spec").addEventListener("click", function(d) {
-        that.filters.category = ["spec"];
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
-    document.getElementById("cat_test").addEventListener("click", function(d) {
-        that.filters.category = ["test"];
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
+  document.getElementById("status")
+          .addEventListener("click", function(d)
+          {
+            that.filters.state = this.value;
+            $(that.eventHandler).trigger("filterChanged",
+                                            that.filters);
+          });
 
-    document.getElementById("sort_code").addEventListener("click", function(d) {
-        that.filters.who_sort = "code";
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
-    document.getElementById("sort_issue").addEventListener("click", function(d) {
-        that.filters.who_sort = "issues";
-        $(that.eventHandler).trigger("filterChanged", that.filters);
-    });
+
+  document.getElementById("category")
+          .addEventListener("click", function(d)
+          {
+            if(this.value == "all")
+            {
+              that.filters.category = ["test", "spec"];
+            } else
+            {
+              that.filters.category = [this.value];
+            }
+            $(that.eventHandler).trigger("filterChanged",
+                                          that.filters);
+          });
+
+  document.getElementById("who_sort")
+          .addEventListener("click", function(d)
+          {
+            that.filters.who_sort = this.value;
+            $(that.eventHandler).trigger("filterChanged",
+                                          that.filters);
+          });
 };
 
 //Updates the hash query string with the current filters
@@ -79,7 +81,8 @@ FilterUI.prototype.setHashString = function(_filters) {
     jHash.val(_filters);
 };
 
-//Grabs any hash string query variables that are present and updates the global filters object accordingly
+//Grabs any hash string query variables that are present
+//and updates the global filters object accordingly
 FilterUI.prototype.initHashString = function() {
     var hashFilters = jHash.val();
 
