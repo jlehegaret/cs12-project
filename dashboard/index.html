@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>GitHub and the Web | Dashboard</title>
+    <!--Library code -->
+    <script src="js/lib/jquery-2.1.3.min.js"></script>
+    <script src="js/lib/d3.js" charset="utf-8"></script>
+    <script src="js/lib/queue.v1.min.js"></script>
+    <script src="js/lib/d3.tip.v0.6.6.js"></script>
+    <script src="js/lib/intro.js"></script>
+    <script src="js/lib/jhash-2.1.min.js"></script>
+
+
+    <!--
+    <script src="js/preloader.js"></script>
+    -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <!-- Styles from http://testthewebforward.org/ -->
+    <link rel="stylesheet" href="css/custom.css" type="text/css" media="screen">
+    <!-- Visualization Styles -->
+    <link rel="stylesheet" href="css/vis.css" type="text/css" media="screen">
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/preloader.css" rel="stylesheet" />
+    <link href="css/introjs.css" rel="stylesheet" />
+
+    <!--Vis code-->
+    <script src="js/util.js"></script>
+    <script src="js/processData.js"></script>
+    <script src="js/specvis.js"></script>
+    <script src="js/whovis.js"></script>
+    <script src="js/timelinevis.js"></script>
+    <script src="js/filterui.js"></script>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <!-- header -->
+
+    <header>
+
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header"></div>
+                <h1><span class="navbar-header"><img class="w3c" src="images/w3c.jpg" width="100%" height="100%"></span></h1>
+
+                <div class="navbar-collapse collapse ">
+
+                    <ul style="float:right" class="navbar-header">
+                    <div>   <span class="title">CS-171 Final Project</span></div>
+                   <div>  <span class="names">Jennifer Le Hegaret, Zona Kostic, John Greeley</span></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- main D3 stuff -->
+
+    <div class="container">
+
+        <nav id='cssmenu'>
+            <ul>
+
+                <li class='active'><a class="links" id="one"><span>View By Status</span></a>
+                    <ul class='child'>
+                        <li class='has-sub'><a id="state_all"><span>All</span></a>
+                        </li>
+                        <li class='has-sub'><a id="state_open"><span>Unresolved Items</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class='active'><a class="links"><span>View By Category</span></a>
+                    <ul class='child'>
+                        <li class='has-sub'><a id="cat_all"><span>All </span></a>
+
+                        </li>
+                        <li class='has-sub'><a id="cat_spec"><span>Spec Edits</span></a>
+                        </li>
+
+                        <li class='has-sub'><a id= "cat_test"><span>Test Suite Updates</span></a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <li class='active'><a class="links"><span>Sort Contributors</span></a>
+                    <ul class='child'>
+                        <li class='has-sub'><a id="sort_code"><span>By Lines of Code Touched</span></a>
+
+                        </li>
+                        <li class='has-sub'><a id="sort_issue"><span>By Issues Raised</span></a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class='active'><a class="links"><span>About</span></a>
+                    <ul class='child'>
+                        <li class='has-sub'><a href='https://github.com/jlehegaret/cs171-project/tree/master/dashboard/data'><span>Our Data</span></a>
+                        </li>
+
+                        <li class='has-sub'><a href='https://github.com/jlehegaret/cs171-project/blob/master/process_doc/toc.md'><span>Process Document</span></a>
+                        </li>
+
+                        <li class='has-sub'><a href='screencastPage.html'><span>View the Screencast</span></a>
+                        </li>
+
+                        <li id="walkthrough" class='has-sub'><a href='#'><span>Launch a WalkThrough</span></a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </nav>
+          <div style="position: absolute; margin-top:380px; width:285px; height:108;"> <img src="images/legend.jpg"> </div>
+
+        <div id="loader-wrapper">
+            <div id="loader"></div>
+
+            <div class="loader-section section-left"></div>
+            <div class="loader-section section-right"></div>
+
+        </div>
+
+
+        <div style="float:left" id="specVis"></div>
+
+        <div id="whereAmI">
+            <p><i><span id="statusLabel">All Work Done</span>, <span id="categoryLabel">All Categories</span></i> <strong>- VIEWING</strong></p>
+            <p><i><span id="timeframeLabelStart">Date</span> to <span id="timeframeLabelEnd">Date</span></i><strong>- TIMEFRAME</strong></p>
+            <p><i><span id="wgLabel">All</span></i><strong>- WORKING GROUP</strong></p>
+            <p><i><span id="specLabel">All</span> </i><strong>- SPEC</strong></p>
+            <p><i><span id="whoLabel">All</span> </i><strong>- CONTRIBUTOR</strong></p>
+
+        <div id="whoVis">
+        </div>
+        </div>
+
+        <div id="timelineVis-zoom"></div>
+        <div  id="timelineVis-whole"></div>
+
+
+    </div>
+
+    <div class="footer">
+
+  </div>
+
+</div>
+
+<script>
+    $(document).ready(function() {
+        //Global data variables
+        var allData = {caniuse: [], groups: [], specs: [], tests: []};
+
+        //If this object is passed to visualization, it will override the default filters
+
+        var today = new Date();
+        var before = new Date();
+        before = before.setMonth(before.getMonth() - 3);
+
+        //NOTE:These filters are overrode by any options specified in the hash query string
+        var initialFilters = {
+            start_date: stripTime(before),
+            end_date: stripTime(today),    // needs to be in this format
+            state: "all",           //open or all
+            category: ["spec", "test"],        // all, spec, or test
+            specs: [],          // array of which specs to show.
+                                //    empty = all.
+  //          caniuse: false,     // change sunburst color
+                                // to reflect caniuse score
+            who: "none",          // or can be one name
+            who_sort: "code"   // or issues
+        };
+
+
+        //Handles filter options from UI and gets and sets hash query strings
+        var filterHandler = {};
+        var filter_ui = new FilterUI(d3.select("#whereAmI"), initialFilters, filterHandler);
+
+        var initVis = function () {
+            //Handles timeline brushing
+            var brushHandler = {};
+            //Handles sunburst selection changing
+            var selectionHandler = {};
+            //Handles whovis author selection changing
+            var authorHandler = {};
+            //Create visualizations
+            var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
+            var who_vis = new WhoVis(d3.select("#whoVis"), allData, authorHandler, initialFilters);
+            var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
+                { width:1200, height:200, doBrush: false, doTooltips: true});
+            var timeline_whole = new TimelineVis(d3.select("#timelineVis-whole"), allData, brushHandler, initialFilters,
+                { width:1200, height:200, doBrush: true, doTooltips: false});
+
+
+            //End preload animation
+            $('body').addClass('loaded');
+
+            //Wire up event handlers
+            $(brushHandler).bind("brushChanged", function (event, selectionStart, selectionEnd) {
+                spec_vis.onTimelineChange(selectionStart, selectionEnd);
+                who_vis.onTimelineChange(selectionStart, selectionEnd);
+                filter_ui.onTimelineChange(selectionStart, selectionEnd);
+                timeline_zoom.onTimelineChange(selectionStart, selectionEnd);
+            });
+            $(selectionHandler).bind("selectionChanged", function (event, specSelection) {
+                timeline_zoom.onSelectionChange(specSelection);
+                who_vis.onSelectionChange(specSelection);
+                filter_ui.onSelectionChange(specSelection);
+                // console.log(specSelection);
+            });
+            $(authorHandler).bind("authorChanged", function (event, author) {
+                spec_vis.onAuthorChange(author);
+                timeline_zoom.onAuthorChange(author);
+                filter_ui.onAuthorChange(author);
+            });
+            $(filterHandler).bind("filterChanged", function(event, filters) {
+ //                console.log("Filters changed");
+ //                console.log(filters);
+                filter_ui.onFilterChange(filters);
+                spec_vis.onFilterChange(filters);
+                timeline_zoom.onFilterChange(filters);
+                who_vis.onFilterChange(filters);
+            });
+        };
+        var dataLoaded = function (error, _caniuse, _groups, _specs, _tests) {
+            if (!error) {
+                //See processData.js
+                allData = processData(_caniuse, _groups, _specs, _tests);
+
+                //log the data structures, remove for production
+                //logData();
+                initVis();
+            } else {
+                console.log("Error loading data!:" + error);
+            }
+        };
+        var init = function () {
+            //asynchronously load data
+            queue()
+                    .defer(d3.json, "data/caniuse.json")
+                    .defer(d3.json, "data/groups.json")
+                    .defer(d3.json, "data/specs.json")
+                    .defer(d3.json, "data/tests.json")
+                    .await(dataLoaded);
+        };
+        init();
+
+        ////for navbar transition/////
+
+        $(function () {
+            $('.links').on('click', function () {
+                $(this).parent('.active').children('.child').slideToggle(function() {
+                    $(this).toggleClass('in out');
+                });
+            });
+        });
+
+        ////invisible slider/////
+
+            // var $gal   =  $("#whoVis"),
+            //         galW   = 1000,
+            //         galSW  = 7800, // here define dynamic width with svgWhoVis
+            //         wDiff  = (galSW/galW)-1,  // widths difference ratio
+            //         mPadd  = 0,  // Mousemove Padding
+            //         damp   = 2,  // Mousemove response softness
+            //         mX     = 0,   // Real mouse position
+            //         mX2    = 0,   // Modified mouse position
+            //         posX   = 0,
+            //         mmAA   = galW-(mPadd*2), // The mousemove available area
+            //         mmAAr  = (galW/mmAA);    // get available mousemove fidderence ratio
+
+            // console.log(galW, galSW)
+
+            // $gal.mousemove(function(e) {
+            //     mX = e.pageX - $(this).parent().offset().left - this.offsetLeft;
+            //     mX2 = Math.min( Math.max(100, mX-mPadd), mmAA ) * mmAAr;
+            // });
+
+            // setInterval(function(){
+            //     posX += (mX2 - posX) / damp; // zeno's paradox equation "catching delay"
+            //     $gal.scrollLeft(posX*wDiff);
+            // }, 10);
+
+
+        /////walkthrought/////
+
+        $(function(){
+            var introguide = introJs();
+           // var startbtn   = $('#startdemotour');
+
+            $("#walkthrough").click(function() {
+                introguide.start();
+            });
+
+            introguide.setOptions({
+                steps: [
+                    {
+                        element: '.navbar-collapse collapse ',
+                        intro: 'Welcome to our visualization of W3C’s GitHub-hosted specification work.<br><br>This guided tour explains the Git the Web Forward interface.<br><br>Use the arrow keys for navigation, or hit ESC to exit the tour immediately.',
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#specVis',
+                        intro: 'W3C is made up of many working groups.  The ones that do their work on GitHub are listed in the innermost ring of this sunburst diagram.',
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#specVis',
+                        intro: 'Each working group works on many specs.  These are listed along the next-most inner ring, just outside from the working group responsible for it. <br> <br>When one spec is worked on by more than one working group, it appears in the circle twice. <br> <br>The color of the spec in the ring relates to how well it has been implemented so far – at least, according to www.caniuse.com.',
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#specVis',
+                        intro: 'The third ring shows the kind of work being done on that particular spec – either the spec’s text is getting edited, or the spec’s test suite is getting updated.<br><br>Spec text edits are shown in blue while test suite efforts are shown in black. ',
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#specVis',
+                        intro: 'The outermost ring shows exactly what work was done.  There are different kinds of work - commiting code directly, opening a pull request, closing an open pull request, opening an issue, or closing an issue.<br><br>The number of items of work done determines the size of the arc of the parent category.  This feeds in towards the center, determining the relative sizes of each spec and of each working group.',
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#specVis',
+                        intro: 'Click on any item of interest to zoom in.<br><br>Click the center to zoom back out.<br><br>Every click you make also adds or removes a filter to our other views of the data.',
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#whoVis',
+                        intro: 'Our Contributors graph displays how much code a person has touched and how many issues that person has opened or closed.<br><br>Click on a bar to see only the work by that one person displayed in the other graphs.',
+                        position: 'right'
+                    },
+                    {
+                        element: '#cssmenu',
+                        intro: "Use the menu to choose how to sort the list.",
+                        position: 'bottom'
+                    },
+                    {
+                        element: '#timelineVis-whole',
+                        intro: 'You can use the timeline to filter the data, too.<br><br>Select your timeframe using the bottom timeline. The top timeline will magnify that selection, and the other graphs will automatically update..<br><br>The gray lines on the bottom timeline show the last published date for specifications that are not yet Recommendation status..<br><br>The black lines show the last published dates of specs that <b>are</b> Recommendations..<br><br>By default, spec edits display above the axis, while test suite contributions display below the axis',
+                        position: 'top'
+                    },
+                    {
+                        element: '#cssmenu',
+                        intro: "However, if you use the menu to view only test suite work, test suite work will flip to the positive side of the axis.  <br><br>You can also use the menu to view only the work that is currently outstanding – pull requests waiting to be merged, and issues that still need to be addressed.  To do this, choose to view Unresolved Items..  <br><br>The sunburst then shows which specs have outstanding issues, and which ones don’t.  .  <br><br>The contributors list turns into a list of who is waiting most for an issue to be solved or code to be merged..  <br><br>And the timeline shows how old those unresolved issues are getting.",
+                        position: 'right'
+                    },
+                    {
+                        element: '#whereAmI',
+                        intro: "You can always remind yourself of your filtering choices here.",
+                        position: 'bottom'
+                    },
+                    {
+                        element: '.navbar-collapse collapse ',
+                        intro: 'Thank you for walking through our visualization.  We hope that you enjoy exploring it!',
+                        position: 'bottom'
+                    }
+                ]
+            });
+
+        });
+
+    });
+</script>
+</body>
+</html>
