@@ -31,7 +31,7 @@ header {
     width: 15em;
 }
 
-.topmost.row {
+.header.row {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -40,23 +40,46 @@ header {
     padding-bottom: .5em;
     border-bottom: 1px white solid;
 }
-.topmost.cell {
+.header.cell {
     margin: 0;
     width: 12em;
 }
 
+/*Main layout*/
+
+/*Overall Layout*/
+main {
+    width: 95%;
+    margin: auto;
+    padding-top: 1em;
+}
+
+main .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+main .cell {
+    margin: 0;
+}
+
+
 /*In filters list*/
 
+#viz_nav {
+    display: block;
+    width: 18em;
+    height: 500px;
+}
 #filters {
     margin-top: 0;
     padding-top: .5em;
     padding-left: 0;
     font-size: .8em;
-}
-
-#filters label, #filters select, #filters span, #filters a {
-    color: white;
-    background-color: #145184;
+    width: 17em;
 }
 
 #filters select {
@@ -65,7 +88,7 @@ header {
 
 #filters .row {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: flex-start;
@@ -75,22 +98,8 @@ header {
     width: 17em;
 }
 
-/*Overall Layout*/
-#vizs {
-    width: 95%;
-    margin: auto;
-    padding-top: 2em;
-}
-
-#vizs .row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-}
-#vizs .cell {
-    margin: 0;
+#legend {
+/*    background-color: white;*/
 }
 
 #specVis {
@@ -98,11 +107,46 @@ header {
 }
 
 #whoVis {
-    height: 200px;
+    height: 500px;
     width: 400px;
     overflow-y: scroll;
     overflow-x: hidden;
 }
+
+/*TOOLTIPS*/
+.d3-tip {
+    z-index: 9999;
+    font-size: .7em;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #c9b3a2;
+    padding: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+#whoVis .d3-tip{
+    width: 250px;
+    height: 250px;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+.collapsibleList li{
+  list-style-type: none;
+  cursor:auto;
+}
+
+li.collapsibleListOpen{
+  list-style-type: none;
+  cursor:pointer;
+}
+
+li.collapsibleListClosed{
+  list-style-type: none;
+  cursor:pointer;
+}
+
 
 a:active {
     outline:0;

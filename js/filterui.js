@@ -145,7 +145,7 @@ FilterUI.prototype.onFilterChange = function(_filters) {
 ///////
 FilterUI.prototype.getAuthorText = function(author) {
     if(!author || author === "none") {
-        return "All"
+        return "All Contributors"
     } else {
         return author;
     }
@@ -153,26 +153,26 @@ FilterUI.prototype.getAuthorText = function(author) {
 
 FilterUI.prototype.getCategoryText = function(category) {
     if(category.length === 2) {
-        return "All Categories";
+        return "Spec Edits and Test Dev.";
     } else if(category.indexOf("spec") != -1) {
         return "Spec Edits Only";
     } else if(category.indexOf("test") != -1) {
-        return "Test Suite Work Only";
+        return "Test Dev. Only";
     }
 };
 
 FilterUI.prototype.getStatusText = function(status) {
     if(status === "all") {
-        return "All Work Done";
+        return "Open and Closed Items";
     } else if(status === "open") {
-        return "Unresolved Issues Only";
+        return "Open Items Only";
     }
 };
 
 FilterUI.prototype.getWgText = function(sunburstSelection) {
     switch(sunburstSelection.depth) {
         case 0:
-        return "All";
+        return "All Working Groups";
         case 1:
             return sunburstSelection.name;
         case 2:

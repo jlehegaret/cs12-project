@@ -9,6 +9,7 @@
     <script src="js/lib/queue.v1.min.js"></script>
     <script src="js/lib/d3.js" charset="utf-8"></script>
     <script src="js/lib/d3.tip.v0.6.6.js"></script>
+    <script src="js/lib/CollapsibleLists.compressed.js"></script>
     <script src="js/lib/jhash-2.1.min.js"></script>
     <script src="js/lib/intro.js"></script>
 
@@ -37,7 +38,7 @@
 
   <!-- header, with navigation and filter options -->
   <header>
-    <div class="topmost row">
+    <div class="header row">
       <div class="cell">
         <span id="logo">Git the Web Forward</span>
       </div>
@@ -69,11 +70,14 @@
           </ul>
         </nav>
       </div> <!-- end of nav cell -->
-    </div> <!-- end of logo row -->
-    <div id="filters">
+    </div> <!-- end of header row -->
+  </header>
+  <main>
+  <div class="row">
+    <div id="filters" class="cell">
       <div class="row">
         <div class="cell">
-            <label for="status">Viewing</label>
+            <!-- <label for="status">Viewing</label> -->
             <select id="status" name="status">
               <option value="all">
                 Open and Closed Items
@@ -84,32 +88,30 @@
             </select>
         </div>
         <div class="cell">
-            <label for="category">Of</label>
+            <!-- <label for="category">Of</label> -->
             <select id="category" name="category">
               <option value="all">
-                Spec Edits and Test Suite Dev.
+                Spec Edits and Test Dev.
               </option>
               <option value="spec">
                 Spec Edits Only
               </option>
               <option value="test">
-                Test Suite Dev. Only
+                Test Dev. Only
               </option>
             </select>
         </div>
         <div class="cell">
-              <span id="wgLabel">All</span>
-              <label for="wgLabel"> Working Group</label>
+              <span id="wgLabel">All Working Groups</span>
+              <!-- <label for="wgLabel"> Working Group</label> -->
         </div>
         <div class="cell">
               <span id="specLabel">All</span>
-              <label for="wgLabel"> Spec</label>
+              <label for="wgLabel">Spec</label>
         </div>
-<!--       </div>
-      <div class="row"> -->
         <div class="cell">
-          By <span id="whoLabel">All</span>
-            <label for="whoLabel"> Contributor</label>
+          <label for="whoLabel">By</label>
+          <span id="whoLabel">All Contributors</span>
         </div>
         <div class="cell">
           <label for="who_sort">sorted by</label>
@@ -136,22 +138,19 @@
           <span id="statusLabel">All Work Done</span>
           <span id="categoryLabel">All Categories</span>
         </div>
-      </div>
-    </div> <!-- end of filters -->
-  </header>
-
-  <!-- main D3 stuff -->
-  <div id="vizs">
-    <div id="specVis" class="cell"></div>
-    <div class= "row">
-        <div id="whoVis" class="cell"></div>
         <div id="legend" class="cell"></div>
+      </div>
     </div>
+  <div id="specVis" class="vizs cell"></div>
+  <div id="whoVis" class="vizs cell"></div>
+  </div> <!-- end first row content -->
     <div class = "row">
-        <div id="timelineVis-zoom" class="cell"></div>
+      <div id="timelineVis-whole" class="vizs cell"></div>
+      <div id="timelineVis-zoom" class="vizs cell"></div>
     </div>
-    <div id="timelineVis-whole" class="cell"></div>
-  </div>
+  </main>
+
+  <!-- Footer -->
   <footer>
   </footer>
 
@@ -200,9 +199,9 @@
             var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
             var who_vis = new WhoVis(d3.select("#whoVis"), allData, authorHandler, initialFilters);
             var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
-                { width:1200, height:200, doBrush: false, doTooltips: true});
+                { width:600, height:200, doBrush: false, doTooltips: true});
             var timeline_whole = new TimelineVis(d3.select("#timelineVis-whole"), allData, brushHandler, initialFilters,
-                { width:1200, height:200, doBrush: true, doTooltips: false});
+                { width:600, height:200, doBrush: true, doTooltips: false});
 
 
             //End preload animation

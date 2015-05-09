@@ -1,4 +1,7 @@
-/* COLOR CODING */
+/* COLOR CODING
+    needs to be updated elsewhere too
+    when a linear gradient is applied to a rect
+*/
 
 .HTML {
     fill: #145184;
@@ -28,19 +31,19 @@
     fill: #6CAED7;
 }
 .commit, .COM {
-    fill: rgb(218,165,32);
+    fill: rgb(218,165,32);  /* copy changes to WhoVis */
 }
 .pull.closed, .test.closed, .PR_C {
-    fill: rgb(210, 180, 140);
+    fill: rgb(210, 180, 140);  /* copy changes to WhoVis */
 }
 .pull.open, .test.open, .PR_O {
-    fill: #145184;
+    fill: #145184;  /* copy changes to WhoVis */
 }
 .issue.closed, .ISS_C {
-    fill: rgb(170, 10, 30);
+    fill: rgb(170, 10, 30);  /* copy changes to WhoVis */
 }
 .issue.open, .ISS_O {
-    fill: rgb(220, 20, 60);
+    fill: rgb(220, 20, 60);  /* copy changes to WhoVis */
 }
 
 /*SUNBURST STUFF*/
@@ -58,15 +61,11 @@
     color: darkslategray;
 }
 
-#whoVis.who {
-
-}
-
 .who[selected="false"] {
     opacity: .5;
 }
 .who[selected="true"] {
-    opacity: 1;
+    opacity: 1;  /* or remove? */
 }
 
 /*LEGEND*/
@@ -78,9 +77,9 @@
     fill: white;
 }
 
-#legend g {
+/*#legend g {
     float: left;
-}
+}*/
 
 /*TIMELINE STUFF*/
 
@@ -128,19 +127,6 @@
     pointer-events: none;
 }
 
-.d3-tip{
-    z-index: 9999;
-    font-size: .7em;
-    background-color: white;
-    border-radius: 5px;
-    border: 2px solid #c9b3a2;
-    padding: 2px;
-    padding-right: 5px;
-    padding-left: 5px;
-    max-width: 200px;
-    max-height: 200px;
-    overflow: hidden;
-}
 
 
 

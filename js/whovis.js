@@ -4,7 +4,7 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     this.eventHandler = _eventHandler;
     this.options = _options || {
         "width"       : 400,  // match svg, set in CSS
-        "height"      : 200   // just a placeholder
+        "height"      : 500   // just a placeholder
     };
 
     this.filters = _filters || {
@@ -73,25 +73,67 @@ WhoVis.prototype.initVis = function() {
 
     this.y = d3.scale.ordinal();
 
-    // FOR CODE
-    this.color_code = d3.scale.ordinal()
-    .range(["#062B59", "#09458F", "#073874", "#09458F", "#0B52AA", "#0C5FC5"]);
 
-    // FOR ISSUES
-    this.color_issues = d3.scale.ordinal()
-    .range(["crimson", "red"]);
+    // // FOR CODE
+    // this.color_code = d3.scale.ordinal()
+    // .range(["#062B59", "#09458F", "#073874", "#09458F", "#0B52AA", "#0C5FC5"]);
 
-    // this.xAxis = d3.svg.axis()
-    // .scale(this.x)
-    // .ticks(5)
-    // .orient("top");
+    // // FOR ISSUES
+    // this.color_issues = d3.scale.ordinal()
+    // .range(["crimson", "red"]);
 
+    // FOR COLORS - FIRST, CODE
+    var gradient = this.svg.append("defs")
+                    .append("svg:linearGradient")
+                    .attr("id", "gradient_code")
+                    .attr("x1", "0%")
+                    .attr("y1", "0%")
+                    .attr("x2", "100%")
+                    .attr("y2", "0%")
+                    .attr("spreadMethod", "pad");
+
+    gradient.append("svg:stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "rgb(218, 165, 32)")
+        .attr("stop-opacity", 1);
+
+    gradient.append("svg:stop")
+        .attr("offset", "50%")
+        .attr("stop-color", "rgb(210, 180, 140)")
+        .attr("stop-opacity", 1);
+
+    gradient.append("svg:stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "#145184")
+        .attr("stop-opacity", 1);
+
+    // DO IT AGAIN FOR ISSUES - CONDENSE LATER
+    gradient = this.svg.select("defs")
+                    .append("svg:linearGradient")
+                    .attr("id", "gradient_issues")
+                    .attr("x1", "0%")
+                    .attr("y1", "0%")
+                    .attr("x2", "100%")
+                    .attr("y2", "0%")
+                    .attr("spreadMethod", "pad");
+
+    gradient.append("svg:stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "rgb(220, 20, 60)")
+        .attr("stop-opacity", 1);
+
+    gradient.append("svg:stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "rgb(170, 10, 30)")
+        .attr("stop-opacity", 1);
+
+    // add group to hold data display
     this.svg.append("g")
             .attr("class", "bars")
             .attr("transform", "translate(0," + this.margin.top + ")");
 
     // set up tooltips
-    this.tip = this.tooltip();
+    this.tip = this.tooltip();  // a function defined on the prototype
 
     // filter, aggregate, modify data
     this.wrangleData();
@@ -167,9 +209,6 @@ WhoVis.prototype.updateVis = function() {
                 }
             });
     };
-    // this.svg.select(".x.axis")
-    //     .call(this.xAxis)
-    //     .selectAll("text");
 
     var whos = this.svg.selectAll("g.bars")
                         .selectAll("g.who")
@@ -202,15 +241,20 @@ WhoVis.prototype.updateVis = function() {
                     doSelect(that.filters.who);
                 }
             })
-            .on("mouseover", this.tip.show)
-            .on("mouseout", this.tip.hide)
+            .on("mouseover.create", that.tip.show)
+            .on("mouseover.collapse", function()
+            {
+              var node = d3.select("body:last-child .d3-tip")[0][0];
+              if(node) { console.log(node); CollapsibleLists.applyTo(node); }
+            })
+            // .on("mouseout", this.tip.hide)
             .append("text") // every who has a name
             .text(function(d){
                 return d.who
             })
             .style("text-anchor", "end")
             .attr("x", this.x_for_axis - this.barPadding)
-            .attr("y", 1.5*this.barHeight);
+            .attr("y", 1.75*this.barHeight);
 
     // move groups as needed
     whos.transition()
@@ -247,23 +291,25 @@ WhoVis.prototype.updateVis = function() {
     bars.transition()
         .attr("width", function(d)
         {
+            var result;
             if(d.type === "code")
             {
-                return that.x_code(d.total) - that.x_for_axis;
+                result = that.x_code(d.total) - that.x_for_axis;
             }
             else
             {
-                return that.x_issues(d.total) - that.x_for_axis;
+                result = that.x_issues(d.total) - that.x_for_axis;
             }
+            return result;
         })
         .style("fill", function(d)
         {
             if(d.type === "code") {
-                return that.color_code(d.who);
+                return "url(#gradient_code)";
             } else {
-                return that.color_issues(d.who);
+                return "url(#gradient_issues)";
             }
-              });
+        });
 }
 
     whos.exit().remove();
@@ -323,7 +369,7 @@ WhoVis.prototype.wrangleData = function() {
     });
   // // make sure it's the right length
   // this.displayData = this.displayData.slice(0, this.options.number_who);
-
+console.log(this.displayData);
 };
 
 WhoVis.prototype.processData = function processData(d, category) {
@@ -562,16 +608,56 @@ WhoVis.prototype.createWho = function (name) {
 };
 
 //Sets up the tooltip function
-WhoVis.prototype.tooltip = function() {
-    return d3.tip()
-        .offset([0, 0])
-        .html(function (d) {
-            return "<div class='d3-tip'>"
-                + d.who + "<br>"
-                + "Lines of Code: " + d.total_code + "<br>"
-                + "Num. Issues: " + d.total_issues
-                + "</div>";
-        });
+WhoVis.prototype.tooltip = function()
+{
+  return d3.tip().offset([0, 0]).html(function (d)
+  {
+    // console.log(d);
+    var text = "<div class='d3-tip'>";
+    var spec_work = d.work.slice(0, 4);
+    var test_work = d.work.slice(5, 9);
+    var codes = { "COM" : "Commits",
+                  "PR_O" : "Opened Pull Requests",
+                  "PR_C" : "Closed Pull Requests",
+                  "ISS_O" : "Opened Issues",
+                  "ISS_C" : "Closed Issues"
+                }
+
+    // list spec work
+    if(d3.sum(spec_work.map(function(d){ return d.total; })) === 0)
+    {
+      text = text + "<h2>Spec Edits - none</h2>";
+    } else
+    {
+      text = text + "<h2>Spec Edits</h2>"
+                  + "<ul class='collapsibleList'>";
+      spec_work.forEach(function(d)
+      {
+        if(d.total > 0)
+        {
+          text = text + "<li><h3>" + codes[d.type]
+                        + " (" + d.details.length + ")</h3>"
+                        + "<ul>";
+          d.details.forEach(function(dd)
+          {
+              text = text + "<li>"
+                      + "<a href='" + dd.html_url + "'>"
+                      + dd.title + "</a>";
+                      + "</li>";
+          });
+          text = text + "</ul></li>"; // end the type's listitem
+        }
+      });
+      text = text + "</ul>";
+    }
+    return text + "</div>";
+
+        // return "<div class='d3-tip'>"
+        //     + d.who + "<br>"
+        //     + "Lines of Code: " + d.total_code + "<br>"
+        //     + "Num. Issues: " + d.total_issues
+        //     + "</div>";
+  });
 };
 
 WhoVis.prototype.select = function(d) {
