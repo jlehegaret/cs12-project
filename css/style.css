@@ -72,12 +72,35 @@ header {
 }
 #filters .cell {
     margin: 0 1em .5em 1em;
-    width: 20em;
+    width: 17em;
 }
 
+/*Overall Layout*/
+#vizs {
+    margin: 2em 0 0 0;
+}
 
+#vizs .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+#vizs .cell {
+    margin: 0;
+}
 
+#specVis {
+    float: left;
+}
 
+#whoVis {
+    height: 200px;
+    width: 200px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
 
 a:active {
     outline:0;

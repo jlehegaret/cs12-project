@@ -3,8 +3,8 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     this.data = _data;
     this.eventHandler = _eventHandler;
     this.options = _options || {
-        "width"       : 700,
-        "height"      : 390
+        "width"       : 200,
+        "height"      : 200
     };
 
     this.filters = _filters || {
@@ -214,8 +214,6 @@ WhoVis.prototype.updateVis = function() {
             .text(function(d){
                 return d.who
             })
-            .style("font-size", "8px")
-            .style("letter-spacing", "1px")
             .style("text-anchor", "end")
             .attr("dx", "-26em")
             .attr("dy", "0.7em")

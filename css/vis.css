@@ -1,161 +1,77 @@
-#whoVis {
-    height: 360px;
-    width: 300px;
-    margin-top:50px;
-    overflow-x: scroll;
-    overflow-y: hidden;
+/* COLOR CODING */
+
+.HTML {
+    fill: #145184;
+}
+.Tests {
+    fill: #142335;
+}
+.group, .groups {
+    fill: #1E3248;
+}
+.specs {
+    fill: #B2BDC7;
+}
+.spec[caniuse="0"] {
+    fill: #8F9299;
+}
+.spec[caniuse="1"] {
+    fill: #41658C;
+}
+.spec[caniuse="2"] {
+    fill: #C9B3A2;
+}
+.spec[caniuse="3"] {
+    fill: #52a5ae;
+}
+.spec[caniuse="4"] {
+    fill: #6CAED7;
+}
+.commit, .COM {
+    fill: rgb(218,165,32);
+}
+.pull.closed, .test.closed, .PR_C {
+    fill: rgb(210, 180, 140);
+}
+.pull.open, .test.open, .PR_O {
+    fill: #145184;
+}
+.issue.closed, .ISS_C {
+    fill: rgb(170, 10, 30);
+}
+.issue.open, .ISS_O {
+    fill: rgb(220, 20, 60);
 }
 
-#whereAmI{
-    color:black;
-    text-align:right;
-    float:right;
-    height:150px;
-    width: 300px;
-    margin-right:20px;
-    margin-top:10px;
-    font-size: 11px;
-    margin-bottom: 20px;
-    font-family: 'Lato', sans-serif;
+/*SUNBURST STUFF*/
 
-}
-
-#legend{
-    color:darkgrey;
-    text-align:right;
-    float:right;
-    height:100px;
-    width:300px;
-    margin-right:20px;
-    margin-top:10px;
-    font-size: 11px;
-
-}
-
-#timelineVis-zoom{
-
-    margin-top:500px;
-    position:absolute;
-
-}
-
-#timelineVis-whole{
-
-    margin-top:680px;
-    position:absolute;
-
-}
-
-.axis text {
-    font: 10px sans-serif;
-}
-
-.axis line,
-.axis path {
-    fill: none;
-    /*stroke: #000;*/
-    shape-rendering: crispEdges;
-}
-
-.boundingBox{
-    cursor: pointer;
-    fill: grey;
-    fill-opacity: .3;
-    pointer-events: all;
-}
-
-.brush{
-    fill: #142336;
-    fill-opacity: .4;
-    pointer-events: none;
-}
-
-/*path {
-    stroke: #fff;
-    fill-rule: evenodd;
-}*/
-
-.d3-tip{
-
-    z-index: 9999;
-    background-color: white;
-    border-radius: 5px;
-    border: 2px solid #c9b3a2;
-    padding: 2px;
-    padding-right: 5px;
-    padding-left: 5px;
-    max-width: 300px;
-}
-
-
-
-/* spec published */
-.PUB {
-    fill: lightgrey;
-}
-
-.PUB.REC {
-    fill: black;
-
-}
-
-/*Sunburst - specific styles */
 .sunburst .root {
     fill: white;
 }
 
-.sunburst .HTML {
-    fill: #145184;
+/* CONTRIBUTOR LIST */
+.who[selected="false"] {
+    opacity: .5;
 }
-.sunburst .Tests {
-    fill: #142335;
-}
-
-.sunburst .group {
-    fill: #1E3248;
-}
-
-.sunburst .spec[caniuse="0"] {
-    fill: #8F9299;
-}
-.sunburst .spec[caniuse="1"] {
-    fill: #41658C;
-}
-.sunburst .spec[caniuse="2"] {
-    fill: #C9B3A2;
-}
-.sunburst .spec[caniuse="3"] {
-    fill: #52a5ae;
-}
-.sunburst .spec[caniuse="4"] {
-    fill: #6CAED7;
+.who[selected="true"] {
 
 }
 
-/* commit made */
-.commit, .COM {
-    fill: rgba(78, 78, 78, 0.38);
+/*LEGEND*/
+
+#legend text{
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: .5em;
+    font-weight: 300;
+    fill: white;
 }
 
-/* Pull Request closed */
-.pull.closed, .test.closed, .PR_C {
-    fill: rgb(91, 87, 106);
+#legend g {
+    float: left;
 }
 
-/* Pull Request opened */
-.pull.open, .test.open, .PR_O {
-    fill: #DC7A2E;
-}
+/*TIMELINE STUFF*/
 
-/* issue opened */
-.issue.open, .ISS_O {
-    fill: #C2384E;
-}
-
-/* issue closed */
-.issue.closed, .ISS_C {
-    fill: #43161D;
-}
 
 /*.categoryLine{
     stroke: darkgrey;
@@ -163,10 +79,56 @@
 }
 */
 
-/* WhoVis bars */
-.who[selected="false"] {
-    opacity: .5;
+/* spec published */
+.PUB {
+    fill: lightgrey;
 }
-.who[selected="true"] {
+.PUB.REC {
+    fill: black;
+}
 
+/*GENERAL STUFF*/
+
+.axis text {
+    font: 10px sans-serif;
 }
+.axis line,.axis path {
+    fill: none;
+    /*stroke: #000;*/
+    shape-rendering: crispEdges;
+}
+.boundingBox{
+    cursor: pointer;
+    fill: grey;
+    fill-opacity: .3;
+    pointer-events: all;
+}
+/*path {
+    stroke: #fff;
+    fill-rule: evenodd;
+}*/
+
+ /*FUNCTIONALITY*/
+
+.brush{
+    fill: #142336;
+    fill-opacity: .4;
+    pointer-events: none;
+}
+
+.d3-tip{
+    z-index: 9999;
+    font-size: .7em;
+    background-color: white;
+    border-radius: 5px;
+    border: 2px solid #c9b3a2;
+    padding: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+    max-width: 200px;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+
+

@@ -139,11 +139,19 @@
       </div>
     </div> <!-- end of filters -->
   </header>
+
   <!-- main D3 stuff -->
-  <div style="float:left" id="specVis"></div>
-  <div id="whoVis"></div>
-  <div id="timelineVis-zoom"></div>
-  <div  id="timelineVis-whole"></div>
+  <div id="vizs">
+    <div id="specVis" class="cell"></div>
+    <div class= "row">
+        <div id="whoVis" class="cell"></div>
+        <div id="legend" class="cell"></div>
+    </div>
+    <div class = "row">
+        <div id="timelineVis-zoom" class="cell"></div>
+    </div>
+    <div id="timelineVis-whole" class="cell"></div>
+  </div>
   <footer>
   </footer>
 
@@ -179,13 +187,16 @@
         var filter_ui = new FilterUI(d3.select("#filters"), initialFilters, filterHandler);
 
         var initVis = function () {
+
             //Handles timeline brushing
             var brushHandler = {};
             //Handles sunburst selection changing
             var selectionHandler = {};
             //Handles whovis author selection changing
             var authorHandler = {};
+
             //Create visualizations
+            var legend = new Legend(d3.select("#legend"), {width: 200, height: 200});
             var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
             var who_vis = new WhoVis(d3.select("#whoVis"), allData, authorHandler, initialFilters);
             var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
