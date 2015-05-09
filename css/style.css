@@ -77,7 +77,9 @@ header {
 
 /*Overall Layout*/
 #vizs {
-    margin: 2em 0 0 0;
+    width: 95%;
+    margin: auto;
+    padding-top: 2em;
 }
 
 #vizs .row {
@@ -97,9 +99,9 @@ header {
 
 #whoVis {
     height: 200px;
-    width: 200px;
-    overflow-x: scroll;
-    overflow-y: hidden;
+    width: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 a:active {

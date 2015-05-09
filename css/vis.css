@@ -50,11 +50,23 @@
 }
 
 /* CONTRIBUTOR LIST */
+
+#whoVis text {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 300;
+    font-size: .7em;
+    color: darkslategray;
+}
+
+#whoVis.who {
+
+}
+
 .who[selected="false"] {
     opacity: .5;
 }
 .who[selected="true"] {
-
+    opacity: 1;
 }
 
 /*LEGEND*/

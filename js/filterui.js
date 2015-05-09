@@ -45,7 +45,7 @@ FilterUI.prototype.addEventHandlers = function()
   var that = this;
 
   document.getElementById("status")
-          .addEventListener("click", function(d)
+          .addEventListener("change", function(d)
           {
             that.filters.state = this.value;
             $(that.eventHandler).trigger("filterChanged",
@@ -54,7 +54,7 @@ FilterUI.prototype.addEventHandlers = function()
 
 
   document.getElementById("category")
-          .addEventListener("click", function(d)
+          .addEventListener("change", function(d)
           {
             if(this.value == "all")
             {
@@ -68,7 +68,7 @@ FilterUI.prototype.addEventHandlers = function()
           });
 
   document.getElementById("who_sort")
-          .addEventListener("click", function(d)
+          .addEventListener("change", function(d)
           {
             that.filters.who_sort = this.value;
             $(that.eventHandler).trigger("filterChanged",

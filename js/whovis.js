@@ -3,8 +3,8 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     this.data = _data;
     this.eventHandler = _eventHandler;
     this.options = _options || {
-        "width"       : 200,
-        "height"      : 200
+        "width"       : 400,  // match svg, set in CSS
+        "height"      : 200   // just a placeholder
     };
 
     this.filters = _filters || {
@@ -37,14 +37,14 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     }
 
     // defines constants
-    this.margin = {top: 0, right: 10, bottom: 20, left: 10};
+    this.margin = {top: 30, right: 10, bottom: 10, left: 10};
     this.width = this.options.width - this.margin.left - this.margin.right;
     // width is going to be as big as it needs to be for all bars
     //  but here is a default
     this.height = this.options.height - this.margin.top - this.margin.bottom;
-    this.y_for_axis = this.height/1.8; // we give bars half the space, names the other half
+    this.x_for_axis = this.width/1.8; // we give bars half the space, names the other half
 
-    this.barWidth = 3;
+    this.barHeight = 6;
     this.barPadding = 2;
 
     this.initVis();
@@ -64,15 +64,14 @@ WhoVis.prototype.initVis = function() {
 
     this.svg = this.parentElement.append("svg")
         .attr("width", this.width + this.margin.left + this.margin.right)
-        .attr("height", this.height + this.margin.top + this.margin.bottom)
-        .append("g");
+        .attr("height", this.height + this.margin.top + this.margin.bottom);
 
-    this.y_code = d3.scale.linear()
-                        .range([this.y_for_axis, 0]);
-    this.y_issues = d3.scale.linear()
-                        .range([this.y_for_axis, 0]);
+    this.x_code = d3.scale.linear()
+                        .range([this.x_for_axis, this.width]);
+    this.x_issues = d3.scale.linear()
+                        .range([this.x_for_axis, this.width]);
 
-    this.x = d3.scale.ordinal();
+    this.y = d3.scale.ordinal();
 
     // FOR CODE
     this.color_code = d3.scale.ordinal()
@@ -88,11 +87,8 @@ WhoVis.prototype.initVis = function() {
     // .orient("top");
 
     this.svg.append("g")
-            .attr("class", "bars");
-
-    // this.svg.append("g")
-    //     .attr("class", "x axis")
-    //     .attr("transform", "translate(0," + -10 + ")");
+            .attr("class", "bars")
+            .attr("transform", "translate(0," + this.margin.top + ")");
 
     // set up tooltips
     this.tip = this.tooltip();
@@ -111,9 +107,9 @@ WhoVis.prototype.updateVis = function() {
 
     // if want more space between bars, change this.barPadding
     //   here, we display two bars per person, so we need the "2"
-    this.width = (this.displayData.length * 2) * (this.barWidth + this.barPadding);
-    this.parentElement.select("svg").attr("width",
-    this.width + this.margin.left + this.margin.right);
+    this.height = (this.displayData.length * (2*this.barHeight + 6*this.barPadding));
+    this.parentElement.select("svg").attr("height",
+    this.height + this.margin.top + this.margin.bottom);
 
     // Moving sorting here in case some day
     // we are more efficient to process events
@@ -145,21 +141,19 @@ WhoVis.prototype.updateVis = function() {
     } else {
         tmpDomain = that.displayData.sort(codeSort).map(function(d) { return d.who; });
     }
-    this.x.domain(tmpDomain).rangeRoundBands([0, this.width], .2, 0);
+    this.y.domain(tmpDomain).rangeRoundBands([0, this.height], .2, 0);
 
     // for lines of code
     this.max = d3.max(this.displayData, function(d) {
         return d.total_code;
     });
-    this.y_code.domain([0, this.max]);
+    this.x_code.domain([0, this.max]);
 
     // for number of issues
     this.max = d3.max(this.displayData, function(d) {
         return d.total_issues;
     });
-    this.y_issues.domain([0, this.max]);
-
-
+    this.x_issues.domain([0, this.max]);
 
     var doSelect = function(who) {
          whos
@@ -215,16 +209,14 @@ WhoVis.prototype.updateVis = function() {
                 return d.who
             })
             .style("text-anchor", "end")
-            .attr("dx", "-26em")
-            .attr("dy", "0.7em")
-            .style("font-family", "sans-serif")
-            .attr("transform", "rotate(-90)");
+            .attr("x", this.x_for_axis - this.barPadding)
+            .attr("y", 1.5*this.barHeight);
 
     // move groups as needed
     whos.transition()
         .attr("transform", function(d)
             {
-                return "translate("+ that.x(d.who)+","+ 0 +")";
+                return "translate(0, "+ that.y(d.who)+")";
             })
         .call(this.tip);
 
@@ -240,35 +232,28 @@ WhoVis.prototype.updateVis = function() {
     bars.enter()
         .append("rect")
         .attr("class", function(d){ return "bar " + d.type; })
-        .attr("x", function(d)
+        .attr("x", that.x_for_axis)
+        .attr("y", function(d)
               {
                   if(d.type === "issues")
                   {
                       // move it along by bar_height
-                      return that.barWidth + that.barPadding;
+                      return that.barHeight + that.barPadding;
                   }
                   return 0;
               })
-        .attr("width", that.barWidth);
+        .attr("height", that.barHeight);
 
     bars.transition()
-        .attr("y", function(d)
-        {
-          if (d.type === "code") {
-              return that.y_code(d.total);
-          } else {
-              return that.y_issues(d.total);
-          }
-        })
-        .attr("height", function(d)
+        .attr("width", function(d)
         {
             if(d.type === "code")
             {
-                return that.y_for_axis - that.y_code(d.total);
+                return that.x_code(d.total) - that.x_for_axis;
             }
             else
             {
-                return that.y_for_axis - that.y_issues(d.total);
+                return that.x_issues(d.total) - that.x_for_axis;
             }
         })
         .style("fill", function(d)
