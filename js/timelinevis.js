@@ -106,7 +106,7 @@ TimelineVis.prototype.initVis = function() {
     // create x axis  - saving y-axis for later if ever
     this.xAxis = d3.svg.axis()
         .scale(this.x0)
-        .orient("bottom");
+        .orient("top");
 
     // prepare for display bars
     this.context.append("g")
@@ -152,10 +152,6 @@ TimelineVis.prototype.initVis = function() {
 
       this.context.append("g")
            .attr("class", "brush");
-    }
-    if(this.options.doTooltips)
-    {
-      // REINSTATE
     }
 
     // filter, aggregate, modify data
@@ -242,7 +238,8 @@ if(this.displayData.dates.length > 0)
                 res = res + " REC";
             }
             return res;
-        });
+        })
+        .on("mouseover", this.tooltip);
         // .on("mouseover", this.tip.show)
         // .on("click", this.tip.show);
      // .on("mouseout", this.tip.hide);
@@ -295,6 +292,7 @@ if(this.displayData.dates.length > 0)
                     }
                     return d.y;
                   });
+
         bars.exit().remove();
 }
 
@@ -620,82 +618,94 @@ TimelineVis.prototype.findDate = function (day) {
             "cat": "spec",
             "type": "PUB",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "spec",
             "type": "COM",
             "scale": "code",
             "dir": "up",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "spec",
             "type": "PR_O",
             "scale": "code",
             "dir": "up",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "spec",
             "type": "PR_C",
             "scale": "code",
             "dir": "up",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "spec",
             "type": "ISS_O",
             "scale": "count",
             "dir": "up",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "spec",
             "type": "ISS_C",
             "scale": "count",
             "dir": "up",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "test",
             "type": "PUB",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "test",
             "type": "COM",
             "scale": "code",
             "dir": "down",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "test",
             "type": "PR_O",
             "scale": "code",
             "dir": "down",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "test",
             "type": "PR_C",
             "scale": "code",
             "dir": "down",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "test",
             "type": "ISS_O",
             "scale": "count",
             "dir": "down",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }, {
             "cat": "test",
             "type": "ISS_C",
             "scale": "count",
             "dir": "down",
             "total": 0,
-            "details": []
+            "details": [],
+            "date": day
         }]
     });
 
@@ -703,48 +713,42 @@ TimelineVis.prototype.findDate = function (day) {
     return (that.processedData.length - 1);
 };
 
-TimelineVis.prototype.tooltip = function() {
-    return d3.tip()
-        .offset([0,0])
-        .html(function(d)
+// repurposed from tooltip to updating text in a special div section
+TimelineVis.prototype.tooltip = function(d)
+{
+    var codes = { "PUB" : "Publications",
+                  "COM" : "Commits",
+                  "PR_O" : "Opened Pull Requests",
+                  "PR_C" : "Closed Pull Requests",
+                  "ISS_O" : "Opened Issues",
+                  "ISS_C" : "Closed Issues"
+                };
+
+    var text = "<ul class='collapsibleList'>"
+               + "<li><b>" + codes[d.type]
+               + "</b><br>on<br><b>" + d.date + "</b></li>"
+               + "<br><br><ul>";
+    d.details.forEach(function(dd)
+    {
+        text = text + "<li>";
+        // define how to access this dd
+        if(d.type === "PUB")
         {
+            text = text + "<a href='" + dd.url + "'>"
+            + dd.title + "</a><br>" +
+            dd.status;
+        }
+        else
+        {
+            text = text + "<a href='" + dd.html_url + "'>"
+            + dd.title + "</a>";
+        }
+        text = text + "</li>";
+    });
+    text = text + "</ul></li></ul>";
 
-            // text = "<p class='d3-tip'>"
-            //         + d.cat + " " + d.type + "<br>"
-            //         + "total: " + d.total + " height: " + d.height + "<br>"
-            //         + "y " + d.y
-            //         + "</p>";
-
-            var text = "<ul class='d3-tip'>";
-            d.details.forEach(function(dd)
-            {
-                text = text + "<li>";
-
-                // define how to access this dd
-                if(d.type === "PUB")
-                {
-                    text = text + "<a href='" + dd.url + "'>"
-                    + dd.title + "</a><br>" +
-                    dd.status;
-                }
-                else if(d.cat === "spec" && d.type === "COM")
-                {
-                    text = text + "<a href='" + dd.html_url + "'>"
-                    + dd.title + "</a>";
-                }
-                else
-                {
-                    text = text + "<a href='" + dd.html_url + "'>"
-                    + dd.title + "</a><br>"
-                    + dd.state;
-                }
-
-                text = text + "</li>";
-            });
-            text = text + "</ul>";
-
-            return text;
-        });
+  d3.select("#details").html(text);
+  CollapsibleLists.applyTo(d3.select("#details")[0][0]);
 };
 
 // EVENT HANDLERS

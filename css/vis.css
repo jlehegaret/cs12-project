@@ -54,13 +54,6 @@
 
 /* CONTRIBUTOR LIST */
 
-#whoVis text {
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-weight: 300;
-    font-size: .7em;
-    color: darkslategray;
-}
-
 .who[selected="false"] {
     opacity: .5;
 }
@@ -68,14 +61,6 @@
     opacity: 1;  /* or remove? */
 }
 
-/*LEGEND*/
-
-#legend text{
-    font-family: 'Open Sans', Arial, sans-serif;
-    font-size: .5em;
-    font-weight: 300;
-    fill: white;
-}
 
 /*#legend g {
     float: left;
@@ -101,12 +86,14 @@
 /*GENERAL STUFF*/
 
 .axis text {
-    font: 10px sans-serif;
+    font-size: .9em;
 }
-.axis line,.axis path {
+.axis line {
     fill: none;
-    /*stroke: #000;*/
-    shape-rendering: crispEdges;
+    stroke: darkslategray;
+}
+.axis path {
+    display: none;
 }
 .boundingBox{
     cursor: pointer;

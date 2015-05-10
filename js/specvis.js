@@ -77,12 +77,12 @@ SpecVis.prototype.initVis = function () {
 
     // constructs SVG layout
     this.svg = this.parentElement.append("svg")
-        .attr("width", this.width + this.margin.left + this.margin.right)
-        .attr("height", this.height + this.margin.top + this.margin.bottom)
+        .attr("width", this.width)
+        .attr("height", this.height)
         .append("g")
         .classed("sunburst", true)
-        .attr("transform", "translate(" + (this.margin.left + this.margin.right + this.width) / 2.15 + ","
-        + (this.margin.top + this.margin.bottom + this.height) / 2 + ")");
+        .attr("transform", "translate(" + (this.width/2) + ","
+        + (this.height/2) + ")");
 
     //sets up the partition layout
     this.partition = d3.layout.partition()

@@ -23,13 +23,13 @@ Legend = function (_parentElement, _options)
                   row     : 1,
                   col     : 2
                },
-               {  text    : "Open Pull Requests",
+               {  text    : "Open Pull Req.",
                   classes : "pull open",
                   width   : "half",
                   row     : 2,
                   col     : 1
                },
-               {  text    : "Closed Pull Requests",
+               {  text    : "Closed Pull Req.",
                   classes : "pull closed",
                   width   : "half",
                   row     : 2,

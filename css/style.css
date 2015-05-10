@@ -4,15 +4,16 @@
     margin: 0;
 }
 
-html, body {
+body {
     height: 100%;
     background-color: white;
+    font-size: .7em;
 }
 
 body, select {
     font-family: 'Open Sans', Arial, sans-serif;
     font-weight: 300;
-    font-size: 1em;
+    color: darkslategray;
 }
 
 /*Header styles*/
@@ -66,19 +67,25 @@ main .cell {
     margin: 0;
 }
 
+.timelines.row {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
 
 /*In filters list*/
 
 #viz_nav {
     display: block;
-    width: 18em;
-    height: 500px;
+    width: 17em;
+    height: 460px;
 }
 #filters {
     margin-top: 0;
     padding-top: .5em;
     padding-left: 0;
-    font-size: .8em;
     width: 17em;
 }
 
@@ -98,53 +105,81 @@ main .cell {
     width: 17em;
 }
 
-#legend {
-/*    background-color: white;*/
+/*LEGEND*/
+
+#legend text{
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 300;
+    fill: white;
+    font-size: .9em;
 }
 
 #specVis {
     float: left;
 }
 
+
 #whoVis {
-    height: 500px;
-    width: 400px;
+    height: 460px;
+    width: 350px;
     overflow-y: scroll;
     overflow-x: hidden;
+    /*padding-right: 20px;   need room for scrollbar */
+}
+
+#whoVis text {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 300;
 }
 
 /*TOOLTIPS*/
 .d3-tip {
     z-index: 9999;
-    font-size: .7em;
     background-color: white;
     border-radius: 5px;
     border: 2px solid #c9b3a2;
     padding: 2px;
     padding-right: 5px;
     padding-left: 5px;
+    max-width: 200px;
+    max-height: 200px;
 }
 
-#whoVis .d3-tip{
-    width: 250px;
-    height: 250px;
+/*#whoVis .d3-tip{
     overflow-y: scroll;
     overflow-x: auto;
+}*/
+
+
+/* DETAILS LIST */
+#details {
+    height: 460px;
+    width: 250px;
+    overflow-y: scroll;
+    overflow-x: auto;
+    padding-right: 2em;
+    text-align: right;
+}
+#details ul {
+    padding: 0;
+}
+.collapsibleList li {
+    list-style-type: none;
+    cursor:auto;
 }
 
-.collapsibleList li{
-  list-style-type: none;
-  cursor:auto;
+li.collapsibleListOpen {
+    list-style-type: none;
+    cursor:pointer;
 }
 
-li.collapsibleListOpen{
-  list-style-type: none;
-  cursor:pointer;
+li.collapsibleListClosed {
+    list-style-type: none;
+    cursor:pointer;
 }
 
-li.collapsibleListClosed{
-  list-style-type: none;
-  cursor:pointer;
+#details ul li, #details ul li ul li {
+    padding-bottom: 1em;
 }
 
 

@@ -3,8 +3,8 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     this.data = _data;
     this.eventHandler = _eventHandler;
     this.options = _options || {
-        "width"       : 400,  // match svg, set in CSS
-        "height"      : 500   // just a placeholder
+        "width"       : 350,  // match svg, set in CSS
+        "height"      : 450   // just a placeholder - go to CSS
     };
 
     this.filters = _filters || {
@@ -56,10 +56,10 @@ WhoVis.prototype.initVis = function() {
     this.dateFormatter = d3.time.format("%Y-%m-%d");
 
     // we exclude some people from this display
-    this.exclusions = [ "Robin Berjon", "rberjon","darobin",
-        "plehegar", "Philippe Le Hegaret",
-        "unknown", undefined];
-
+    // this.exclusions = [ "Robin Berjon", "rberjon","darobin",
+    //     "plehegar", "Philippe Le Hegaret",
+    //     "unknown", undefined];
+    this.exclusions = ["unknown", undefined];
     this.currentSelection = this.filters.who;
 
     this.svg = this.parentElement.append("svg")
@@ -67,9 +67,9 @@ WhoVis.prototype.initVis = function() {
         .attr("height", this.height + this.margin.top + this.margin.bottom);
 
     this.x_code = d3.scale.linear()
-                        .range([this.x_for_axis, this.width]);
+                        .range([this.x_for_axis, .9*this.width]);
     this.x_issues = d3.scale.linear()
-                        .range([this.x_for_axis, this.width]);
+                        .range([this.x_for_axis, .9*this.width]);
 
     this.y = d3.scale.ordinal();
 
@@ -133,7 +133,7 @@ WhoVis.prototype.initVis = function() {
             .attr("transform", "translate(0," + this.margin.top + ")");
 
     // set up tooltips
-    this.tip = this.tooltip();  // a function defined on the prototype
+    // this.tip = this.tooltip();  // a function defined on the prototype
 
     // filter, aggregate, modify data
     this.wrangleData();
@@ -241,12 +241,13 @@ WhoVis.prototype.updateVis = function() {
                     doSelect(that.filters.who);
                 }
             })
-            .on("mouseover.create", that.tip.show)
-            .on("mouseover.collapse", function()
-            {
-              var node = d3.select("body:last-child .d3-tip")[0][0];
-              if(node) { console.log(node); CollapsibleLists.applyTo(node); }
-            })
+            .on("mouseover", this.tooltip) // repurposed func.
+            // .on("mouseover", that.tip.show)
+            // .on("mouseover.collapse", function()
+            // {
+            //   var node = d3.select("body:last-child .d3-tip")[0][0];
+            //   if(node) { console.log(node); CollapsibleLists.applyTo(node); }
+            // })
             // .on("mouseout", this.tip.hide)
             .append("text") // every who has a name
             .text(function(d){
@@ -261,8 +262,8 @@ WhoVis.prototype.updateVis = function() {
         .attr("transform", function(d)
             {
                 return "translate(0, "+ that.y(d.who)+")";
-            })
-        .call(this.tip);
+            });
+        // .call(this.tip);
 
     // now deal with bars inside of the who group
     var bars = whos.selectAll("rect")  // each who has a code bar and issues bar
@@ -314,6 +315,9 @@ WhoVis.prototype.updateVis = function() {
 
     whos.exit().remove();
 
+    // now reinitialize our left-hand scroll
+    // move scrollpane for who-vis to the left-side
+    // $(function() {$('.scroll-pane').jScrollPane();});
 };
 
 
@@ -369,7 +373,7 @@ WhoVis.prototype.wrangleData = function() {
     });
   // // make sure it's the right length
   // this.displayData = this.displayData.slice(0, this.options.number_who);
-console.log(this.displayData);
+// console.log(this.displayData);
 };
 
 WhoVis.prototype.processData = function processData(d, category) {
@@ -608,12 +612,9 @@ WhoVis.prototype.createWho = function (name) {
 };
 
 //Sets up the tooltip function
-WhoVis.prototype.tooltip = function()
+WhoVis.prototype.tooltip = function(d)
 {
-  return d3.tip().offset([0, 0]).html(function (d)
-  {
-    // console.log(d);
-    var text = "<div class='d3-tip'>";
+    var text = "Contributions by <br><b>" + d.who + "</b><br><br>";
     var spec_work = d.work.slice(0, 4);
     var test_work = d.work.slice(5, 9);
     var codes = { "COM" : "Commits",
@@ -621,22 +622,23 @@ WhoVis.prototype.tooltip = function()
                   "PR_C" : "Closed Pull Requests",
                   "ISS_O" : "Opened Issues",
                   "ISS_C" : "Closed Issues"
-                }
-
+                };
     // list spec work
     if(d3.sum(spec_work.map(function(d){ return d.total; })) === 0)
     {
-      text = text + "<h2>Spec Edits - none</h2>";
+      text = text + "Spec Edits - none<br>";
     } else
     {
-      text = text + "<h2>Spec Edits</h2>"
+      text = text + "Spec Edits"
                   + "<ul class='collapsibleList'>";
       spec_work.forEach(function(d)
       {
         if(d.total > 0)
         {
-          text = text + "<li><h3>" + codes[d.type]
-                        + " (" + d.details.length + ")</h3>"
+          text = text + "<li><a href='#'>"
+                        + codes[d.type]
+                        + " (" + d.details.length
+                        + ")</a>"
                         + "<ul>";
           d.details.forEach(function(dd)
           {
@@ -650,14 +652,44 @@ WhoVis.prototype.tooltip = function()
       });
       text = text + "</ul>";
     }
-    return text + "</div>";
+    text = text + "<br>"; // leaving tooltip div placeholder
 
-        // return "<div class='d3-tip'>"
-        //     + d.who + "<br>"
-        //     + "Lines of Code: " + d.total_code + "<br>"
-        //     + "Num. Issues: " + d.total_issues
-        //     + "</div>";
-  });
+    // DO IT AGAIN list test work
+    //   CONSOLIDATE LATER
+    if(d3.sum(test_work.map(function(d){ return d.total; })) === 0)
+    {
+      text = text + "Test Dev. - none";
+    } else
+    {
+      text = text + "Test Dev."
+                  + "<ul class='collapsibleList'>";
+      test_work.forEach(function(d)
+      {
+        if(d.total > 0)
+        {
+          text = text + "<li><a href='#'>"
+                        + codes[d.type]
+                        + " (" + d.details.length
+                        + ")</a>"
+                        + "<ul>";
+          d.details.forEach(function(dd)
+          {
+              text = text + "<li>"
+                      + "<a href='" + dd.html_url + "'>"
+                      + dd.title + "</a>";
+                      + "</li>";
+          });
+          text = text + "</ul></li>"; // end the type's listitem
+        }
+      });
+      text = text + "</ul>";
+    }
+    text = text + ""; // leaving tooltip div placeholder
+
+
+
+  d3.select("#details").html(text);
+  CollapsibleLists.applyTo(d3.select("#details")[0][0]);
 };
 
 WhoVis.prototype.select = function(d) {

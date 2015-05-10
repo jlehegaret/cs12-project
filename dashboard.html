@@ -12,6 +12,7 @@
     <script src="js/lib/CollapsibleLists.compressed.js"></script>
     <script src="js/lib/jhash-2.1.min.js"></script>
     <script src="js/lib/intro.js"></script>
+    <!-- <script src="js/lib/jquery.jscrollpane.min.js"></script> -->
 
     <!-- Visualization Styles -->
     <link href="css/dropdown-nav.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -19,6 +20,7 @@
     <link href="css/introjs.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href="css/vis.css" rel="stylesheet" type="text/css" media="screen">
+    <!-- <link href="css/jquery.jscrollpane.css" rel="stylesheet" type="text/css" media="all" /> -->
 
     <!--Vis code-->
     <script src="js/util.js"></script>
@@ -143,10 +145,11 @@
     </div>
   <div id="specVis" class="vizs cell"></div>
   <div id="whoVis" class="vizs cell"></div>
+  <div id="details" class="cell"></div>
   </div> <!-- end first row content -->
-    <div class = "row">
-      <div id="timelineVis-whole" class="vizs cell"></div>
+    <div class = "timelines row">
       <div id="timelineVis-zoom" class="vizs cell"></div>
+      <div id="timelineVis-whole" class="vizs cell"></div>
     </div>
   </main>
 
@@ -161,10 +164,9 @@
         var allData = {caniuse: [], groups: [], specs: [], tests: []};
 
         //If this object is passed to visualization, it will override the default filters
-
         var today = new Date();
         var before = new Date();
-        before = before.setMonth(before.getMonth() - 1);
+        before = before.setMonth(before.getMonth() - 2);
 
         //NOTE:These filters are overrode by any options specified in the hash query string
         var initialFilters = {
@@ -199,9 +201,9 @@
             var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
             var who_vis = new WhoVis(d3.select("#whoVis"), allData, authorHandler, initialFilters);
             var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
-                { width:600, height:200, doBrush: false, doTooltips: true});
+                { width:900, height:200, doBrush: false, doTooltips: true});
             var timeline_whole = new TimelineVis(d3.select("#timelineVis-whole"), allData, brushHandler, initialFilters,
-                { width:600, height:200, doBrush: true, doTooltips: false});
+                { width:500, height:200, doBrush: true, doTooltips: false});
 
 
             //End preload animation
