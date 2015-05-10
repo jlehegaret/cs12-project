@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Git the Web Forward | About</title>
+    <script src="js/lib/jquery-2.1.3.min.js"></script>
+    <script src="js/lib/dropdown-nav.js"></script>
+    <link href="css/dropdown-nav.css" rel="stylesheet" type="text/css" media="screen"/>
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
+    <style>
+      h1 {
+        padding: .5em 0;
+      }
+      h2 {
+        padding: 0 0 .5em 0;
+      }
+      p {
+        padding: 1em 0;
+        color: black;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="header row">
+      <div class="cell">
+        <span id="logo">Git the Web Forward</span>
+      </div>
+      <div class="cell">
+        <nav>
+          <ul class="nav">
+            <li><a href="#">Visit the Dashboard</a>
+                <ul>
+                    <li><a href='dashboard.html'>
+                      <span>Dashboard</span></a>
+                    </li>
+<!--                     <li id="walkthrough"><a href='#'>
+                    <span>Launch a WalkThrough</span></a>
+                    </li> -->
+                </ul>
+            </li>
+            <li><a href="#">About</a>
+                <ul>
+                    <li><a href='cs12-report.html'>
+                    <span>CS-E12 Project Report</span></a>
+                    </li>
+                    <li><a href='cs12-notes.html'>
+                    <span>CS-E12 Notes</span></a>
+                    </li>
+                    <li><a href='https://github.com/jlehegaret/cs12-project'>
+                    <span>The GitHub Repo</span></a>
+                    </li>
+                </ul>
+            </li>
+          </ul>
+        </nav>
+      </div> <!-- end of nav cell -->
+    </div> <!-- end of header row -->
+  </header>
+  <main>
+    <h1>About Git the Web Forward</h1>
+    <p>Welcome to the Git the Web Forward page.  This project allows insight into W3C's GitHub work.</p>
+    <p>W3C has over 1000 Specifications that, combined, set the standards for web technologies. These standards are worked on by a collection of about 50 Working Groups. Each specification is an HTML document that moves through various stages – from Working Draft to Recommendation. Much of this HTML code is hosted on GitHub.</p>
+    <p>Many of W3's specifications also have an associated <a href='https://github.com/w3c/web-platform-tests'>Test Suite</a> of (mainly) JavaScript code hosted on GitHub. The Test Suite aims to provide a point-by-point implementation test for every single detail within a given specification and is basically <a href="https://caniuse.com">CanIUse</a> to the nth degree.</p>
+    <p>While it is great that W3C's use of GitHub provides so much transparency about the work being done, all of these different repos make it hard to keep track of exactly what work is being done.  Enter the need for a dashboard.</p>
+    <h1>The Dashboard</h1>
+    <p>Using the GitHub API, W3C was able to collect certain data about the number of commits, pull requests, and issues in the various repos.  This data includes:</p>
+    <ul>
+      <li>Date the item was opened</li>
+      <li>Date the item was closed</li>
+      <li>Who opened the item</li>
+      <li>Who closed the item</li>
+      <li>The title of the item</li>
+      <li>For commits and pull requests: the number of lines of code added and the number of lines deleted</li>
+      <li>For issues, the perceived difficulty level of the issue</li>
+    </ul>
+    <p>Thanks to some data mapping from other sources, we also know:</p>
+    <ul>
+      <li>Which spec is affected by the item</li>
+      <li>The current status of that spec - Working Draft, Candidate Recommendation, Recommendation, etc.</li>
+      <li>Which working group is responsible for that spec (or, in some cases, which working groups)</li>
+      <li>What the CanIUse report says for various elements within each spec</li>
+    </ul>
+    <p>With the help of d3.js and other JavaScript libraries, all of this data has been summarized in an interactive visualization.  We hope that you enjoy exploring it and find it useful.</p>
+  </main>
+  <footer>
+  </footer>
+</body>
+</html>

@@ -76,8 +76,9 @@ May 8, 2015 and adapted by JLH */
 .nav li > a:focus,
 .nav li:focus > a,
 .nav li:hover > a {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#999), to(#DDD));
-  background-image: -moz-linear-gradient(top, #145184, #FFF);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#145184), to(white));
+  background-image: -moz-linear-gradient(top, #145184, white);
+  background-image: linear-gradient(top, #145184, white);
   text-shadow: 0 1px 0 rgba(0,0,0,0.4), 0 -1px 0 rgba(255,255,255,0.2);
   outline: 0;
 }
