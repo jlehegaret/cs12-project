@@ -272,7 +272,7 @@
             introguide.setOptions({
                 steps: [
                     {
-                        element: '.navbar-collapse collapse ',
+                        element: 'main',
                         intro: 'Welcome to our visualization of W3C’s GitHub-hosted specification work.<br><br>This guided tour explains the Git the Web Forward interface.<br><br>Use the arrow keys for navigation, or hit ESC to exit the tour immediately.',
                         position: 'bottom'
                     },
@@ -288,7 +288,7 @@
                     },
                     {
                         element: '#specVis',
-                        intro: 'The third ring shows the kind of work being done on that particular spec – either the spec’s text is getting edited, or the spec’s test suite is getting updated.<br><br>Spec text edits are shown in blue while test suite efforts are shown in black. ',
+                        intro: 'The third ring shows the kind of work being done on that particular spec – either the spec’s text is getting edited, or the spec’s test suite is getting updated.<br><br>Spec text edits are shown in blue while test suite efforts are shown in black.',
                         position: 'bottom'
                     },
                     {
@@ -307,27 +307,27 @@
                         position: 'right'
                     },
                     {
-                        element: '#cssmenu',
-                        intro: "Use the menu to choose how to sort the list.",
-                        position: 'bottom'
-                    },
-                    {
-                        element: '#timelineVis-whole',
-                        intro: 'You can use the timeline to filter the data, too.<br><br>Select your timeframe using the bottom timeline. The top timeline will magnify that selection, and the other graphs will automatically update..<br><br>The gray lines on the bottom timeline show the last published date for specifications that are not yet Recommendation status..<br><br>The black lines show the last published dates of specs that <b>are</b> Recommendations..<br><br>By default, spec edits display above the axis, while test suite contributions display below the axis',
-                        position: 'top'
-                    },
-                    {
-                        element: '#cssmenu',
-                        intro: "However, if you use the menu to view only test suite work, test suite work will flip to the positive side of the axis.  <br><br>You can also use the menu to view only the work that is currently outstanding – pull requests waiting to be merged, and issues that still need to be addressed.  To do this, choose to view Unresolved Items..  <br><br>The sunburst then shows which specs have outstanding issues, and which ones don’t.  .  <br><br>The contributors list turns into a list of who is waiting most for an issue to be solved or code to be merged..  <br><br>And the timeline shows how old those unresolved issues are getting.",
+                        element: '#filters',
+                        intro: "Use the menu to choose how to sort the list - either by lines of code touched or number of issues touched.",
                         position: 'right'
                     },
                     {
-                        element: '#whereAmI',
-                        intro: "You can always remind yourself of your filtering choices here.",
-                        position: 'bottom'
+                        element: '#timelineVis-whole',
+                        intro: 'You can use the timeline to filter the data, too. Select a timeframe using this timeline.<br><br>Gray lines show the last published date for specifications that are not yet Recommendation status.<br><br>Black lines show the last published dates of specs that <b>are</b> Recommendations.',
+                        position: 'top'
                     },
                     {
-                        element: '.navbar-collapse collapse ',
+                        element: '#timelineVis-zoom',
+                        intro: 'After you have selected a timeframe, this timeline will zoom into that timeframe while the other graphs also automatically update.<br><br>By default, spec edits display above the axis, while test suite contributions display below the axis, but this changes when you use the menu to view <b>Test Dev. Only</b>.',
+                        position: 'top'
+                    },
+                    {
+                        element: '#filters',
+                        intro: "You can also use the menu to view only the work that is currently outstanding – pull requests waiting to be merged, and issues that still need to be addressed - by choosing to view <b> Open Items Only</b>.<br><br>The sunburst then reveals which specs have outstanding issues, and which ones don’t.<br><br>The contributors list turns into a list of who are waiting the the most issues to be resolved or code to be merged.<br><br>And the timeline shows how old those unresolved issues are getting.",
+                        position: 'right'
+                    },
+                    {
+                        element: 'main',
                         intro: 'Thank you for walking through our visualization.  We hope that you enjoy exploring it!',
                         position: 'bottom'
                     }
