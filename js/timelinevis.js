@@ -366,6 +366,7 @@ TimelineVis.prototype.wrangleData = function() {
                   filtered = dd;
               } else {
                 filtered= {};
+                filtered.date = dd.date;
                 filtered.cat = dd.cat;
                 filtered.dir = dd.dir;
                 filtered.scale = dd.scale;
@@ -723,10 +724,13 @@ TimelineVis.prototype.tooltip = function(d)
                   "ISS_O" : "Opened Issues",
                   "ISS_C" : "Closed Issues"
                 };
+// console.log(d);
 
-    var text = "<ul class='collapsibleList'>"
-               + "<li><b>" + codes[d.type]
-               + "</b><br>on<br><b>" + d.date + "</b></li>"
+     // "<ul class='collapsibleList'>"
+     //           + "<li>"
+    var text =  "<b>" + d.details.length + " " + codes[d.type]
+               + "</b><br>on<br><b>" + d.date + "</b>"
+               // </li>"
                + "<br><br><ul>";
     d.details.forEach(function(dd)
     {
@@ -745,10 +749,12 @@ TimelineVis.prototype.tooltip = function(d)
         }
         text = text + "</li>";
     });
-    text = text + "</ul></li></ul>";
+    text = text + "</ul>"; //</li></ul>";
 
   d3.select("#details").html(text);
   CollapsibleLists.applyTo(d3.select("#details")[0][0]);
+  // and reinitialize the details scroll
+  // $('#details * .scroll-pane').jScrollPane({ showArrows: true });
 };
 
 // EVENT HANDLERS

@@ -316,8 +316,8 @@ WhoVis.prototype.updateVis = function() {
     whos.exit().remove();
 
     // now reinitialize our left-hand scroll
-    // move scrollpane for who-vis to the left-side
-    // $(function() {$('.scroll-pane').jScrollPane();});
+    $('.scroll-pane').jScrollPane({ showArrows: true });
+
 };
 
 
@@ -686,16 +686,16 @@ WhoVis.prototype.tooltip = function(d)
     }
     text = text + ""; // leaving tooltip div placeholder
 
-
-
   d3.select("#details").html(text);
   CollapsibleLists.applyTo(d3.select("#details")[0][0]);
+  // and reinitialize the scroll
+  // $('#details * .scroll-pane').jScrollPane({ showArrows: true });
 };
 
 WhoVis.prototype.select = function(d) {
     var that = this;
-    console.log(d);
-    console.log(this.filters);
+    // console.log(d);
+    // console.log(this.filters);
     if(!d.selected) {
         d.selected = true;
         $(that.eventHandler).trigger("authorChanged", d.who);

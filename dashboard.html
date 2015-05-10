@@ -12,7 +12,7 @@
     <script src="js/lib/CollapsibleLists.compressed.js"></script>
     <script src="js/lib/jhash-2.1.min.js"></script>
     <script src="js/lib/intro.js"></script>
-    <!-- <script src="js/lib/jquery.jscrollpane.min.js"></script> -->
+    <script src="js/lib/jquery.jscrollpane.min.js"></script>
 
     <!-- Visualization Styles -->
     <link href="css/dropdown-nav.css" rel="stylesheet" type="text/css" media="screen"/>
@@ -20,7 +20,7 @@
     <link href="css/introjs.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href="css/style.css" rel="stylesheet" type="text/css" media="screen"/>
     <link href="css/vis.css" rel="stylesheet" type="text/css" media="screen">
-    <!-- <link href="css/jquery.jscrollpane.css" rel="stylesheet" type="text/css" media="all" /> -->
+    <link href="css/jquery.jscrollpane.css" rel="stylesheet" type="text/css" media="all" />
 
     <!--Vis code-->
     <script src="js/util.js"></script>
@@ -143,8 +143,8 @@
         <div id="legend" class="cell"></div>
       </div>
     </div>
+  <div id="whoVis" class="who scroll-pane vizs cell"></div>
   <div id="specVis" class="vizs cell"></div>
-  <div id="whoVis" class="vizs cell"></div>
   <div id="details" class="cell"></div>
   </div> <!-- end first row content -->
     <div class = "timelines row">
@@ -199,7 +199,7 @@
             //Create visualizations
             var legend = new Legend(d3.select("#legend"), {width: 200, height: 200});
             var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
-            var who_vis = new WhoVis(d3.select("#whoVis"), allData, authorHandler, initialFilters);
+            var who_vis = new WhoVis(d3.select(".who.scroll-pane"), allData, authorHandler, initialFilters);
             var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
                 { width:900, height:200, doBrush: false, doTooltips: true});
             var timeline_whole = new TimelineVis(d3.select("#timelineVis-whole"), allData, brushHandler, initialFilters,
