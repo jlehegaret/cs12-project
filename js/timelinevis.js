@@ -179,7 +179,7 @@ TimelineVis.prototype.updateVis = function() {
     // update bar widths - right now we have 6 bars in each group
     if(this.options.doTooltips)
     {
-      this.bar_width = 10;
+      this.bar_width = 2; // take advantage later, when add slider
     } else
     {
       this.bar_width = 2;
