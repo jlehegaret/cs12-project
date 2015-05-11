@@ -200,7 +200,7 @@
             var authorHandler = {};
 
             //Create visualizations
-            var legend = new Legend(d3.select("#legend"), {width: 200, height: 200});
+            var legend = new Legend(d3.select("#legend"), {width: 200, height: 250});
             var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
             var who_vis = new WhoVis(d3.select(".who.scroll-pane"), allData, authorHandler, initialFilters);
             var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
@@ -286,12 +286,12 @@
                     },
                     {
                         element: '#specVis',
-                        intro: 'Each working group works on many specs.  These are listed along the next-most inner ring, just outside from the working group responsible for it. <br> <br>When one spec is worked on by more than one working group, it appears in the circle twice. <br> <br>The color of the spec in the ring relates to how well it has been implemented so far – at least, according to www.caniuse.com.',
+                        intro: 'Each working group works on many specs.  These are listed along the next-most inner ring, just outside from the working group responsible for it, and are color-coded by status.<br><br>When one spec is worked on by more than one working group, it appears in the circle twice. <br><br>',
                         position: 'bottom'
                     },
                     {
                         element: '#specVis',
-                        intro: 'The third ring shows the kind of work being done on that particular spec – either the spec’s text is getting edited, or the spec’s test suite is getting updated.<br><br>Spec text edits are shown in blue while test suite efforts are shown in black.',
+                        intro: 'The third ring shows the kind of work being done on that particular spec – either the spec’s text is getting edited, or the spec’s test suite is getting updated.<br><br>Test suite efforts are shown in black, while the depth of the blue for spec-side edits reveals how well the spec has been implemented so far – at least, according to www.caniuse.com..',
                         position: 'bottom'
                     },
                     {

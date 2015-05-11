@@ -94,17 +94,17 @@ WhoVis.prototype.initVis = function() {
 
     gradient.append("svg:stop")
         .attr("offset", "0%")
-        .attr("stop-color", "rgb(218, 165, 32)")
+        .attr("stop-color", "#145184")
         .attr("stop-opacity", 1);
 
     gradient.append("svg:stop")
         .attr("offset", "50%")
-        .attr("stop-color", "rgb(210, 180, 140)")
+        .attr("stop-color", "rgb(218, 165, 32)")
         .attr("stop-opacity", 1);
 
     gradient.append("svg:stop")
         .attr("offset", "100%")
-        .attr("stop-color", "#145184")
+        .attr("stop-color", "rgb(210, 180, 140)")
         .attr("stop-opacity", 1);
 
     // DO IT AGAIN FOR ISSUES - CONDENSE LATER

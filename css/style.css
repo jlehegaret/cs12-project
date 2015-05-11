@@ -16,6 +16,10 @@ body, select {
     color: darkslategray;
 }
 
+main {
+    width: 90%;
+    margin: auto;
+}
 /*Header styles*/
 
 header, footer {
@@ -24,12 +28,12 @@ header, footer {
 }
 
 #logo {
-    width: 15em;
+    width: 30em;
     font-size: 2em;
 }
 
 #nav ul ul a {
-    width: 15em;
+    width: 20em;
 }
 
 .header.row {
@@ -191,7 +195,6 @@ a:active {
 
 footer {
     clear: both;
-    position: absolute;
     bottom:0;
     width:100%;
 }

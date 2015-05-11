@@ -3,38 +3,31 @@
     when a linear gradient is applied to a rect
 */
 
-.HTML {
-    fill: #145184;
+
+.WD {
+    fill: #c6dbef; /* copy changes to specVis canIUse*/
 }
+.LCWD {
+    fill: #6baed6; /* copy changes to specVis canIUse*/
+}
+.PR {
+    fill: #2171b5; /* copy changes to specVis canIUse*/
+}
+.CR {
+    fill: #145184; /* copy changes to specVis canIUse*/
+}
+.REC {
+    fill: #08306b; /* copy changes to specVis canIUse*/
+}
+
 .Tests {
-    fill: #142335;
-}
-.group, .groups {
-    fill: #1E3248;
-}
-.specs {
-    fill: #B2BDC7;
-}
-.spec[caniuse="0"] {
-    fill: #8F9299;
-}
-.spec[caniuse="1"] {
-    fill: #41658C;
-}
-.spec[caniuse="2"] {
-    fill: #C9B3A2;
-}
-.spec[caniuse="3"] {
-    fill: #52a5ae;
-}
-.spec[caniuse="4"] {
-    fill: #6CAED7;
+    fill: #353535;
 }
 .commit, .COM {
-    fill: rgb(218,165,32);  /* copy changes to WhoVis */
+    fill: rgb(210,180,140);  /* copy changes to WhoVis */
 }
 .pull.closed, .test.closed, .PR_C {
-    fill: rgb(210, 180, 140);  /* copy changes to WhoVis */
+    fill: rgb(218,165,32);  /* copy changes to WhoVis */
 }
 .pull.open, .test.open, .PR_O {
     fill: #145184;  /* copy changes to WhoVis */
@@ -50,6 +43,12 @@
 
 .sunburst .root {
     fill: white;
+}
+.sunburst .WD {
+    stroke : #08306b;
+}
+.sunburst .LCWD {
+    stroke : #08306b;
 }
 
 /* CONTRIBUTOR LIST */

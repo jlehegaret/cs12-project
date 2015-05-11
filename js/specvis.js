@@ -42,8 +42,6 @@ SpecVis.prototype.initVis = function () {
     //sets up initial category filter
     this.currentCategoryFilter = this.categoryFilter(this.filters.category);
 
-
-
     //use standard descending ordering for all elements
     //except group issues and pulls separately
     var sortTypes = function(a,b) {
@@ -69,6 +67,20 @@ SpecVis.prototype.initVis = function () {
     this.caniuseScale = d3.scale.linear()
         .domain([0,2])
         .rangeRound([0,4]);
+
+    this.wg_color = d3.scale.ordinal()
+            .domain(this.data.groups.map(function(d) { return d.name; }))
+            .range([
+    // grays
+    "#969696","#737373","#525252","#353535"
+                    ]);
+
+    this.caniuse_color = d3.scale.ordinal()
+            .domain(0, 1)
+            .range([
+    // same blues as specs as defined in CSS
+    "#c6dbef", "#6baed6","#2171b5","#145184", "#08306b"
+                    ]);
 
     this.x = d3.scale.linear()
         .range([0, 2 * Math.PI]);
@@ -137,6 +149,7 @@ SpecVis.prototype.wrangleData = function (_filters) {
         spec.url = d.url;
         spec.name = d.title;
         spec.score = d.score;
+        spec.status = d.status;
         if (d.issues && categoryFilter("issue")) {
             spec.issues = d.issues.filter(filterChain);
         }
@@ -192,22 +205,35 @@ SpecVis.prototype.updateVis = function () {
         .enter()
         .append("path")
         .attr("class", function (d) {
-            return d.type;
-        })
-        .classed("open", function(d) {
-            return d.state === "open"
-        })
-        .classed("closed", function(d) {
-            return d.state === "closed"
-        })
-        .attr("caniuse", function(d) {
-            if(d.type == "spec") {
-                return that.caniuseScale(d.score);
-            } else {
-                return null;
+            var text;
+            if(d.state === "open"
+                || d.state === "closed")
+            {
+                text = d.state;
             }
+            text = text + " " + d.type;
+            if(d.type ==="spec")
+            {
+                text = text + " " + d.status;
+            }
+            return text;
         })
- //       .style("fill", this.sunburstFill)
+        .style("fill", function(d)
+        {
+            if(d.type === "group")
+            {
+                return that.wg_color(d.name);
+            } else if(d.type === "HTML")
+            {
+                // apply the CanIUse score,
+                // d.score of the spec parent
+                return that.caniuse_color(d.parent.score);
+            } // USING CSS HERE
+            //else if(d.type === "spec")
+            // {
+            //     return that.spec_color(d.status);
+            // }
+        })
         .on("click", click)
         .on("mouseover", this.tip.show);
         // .on("mouseout", this.tip.hide);
@@ -268,6 +294,7 @@ SpecVis.prototype.createHierarchy = function(group_lookup, spec_lookup, test_loo
                     }];
 
                 spec.name = _fullSpec.name;
+                spec.status = _fullSpec.status;
                 spec.score = _fullSpec.score;
                 if (_fullSpec.issues) {
                     _fullSpec.issues.forEach(function (_issue) {
