@@ -4,8 +4,10 @@
     margin: 0;
 }
 
-body {
+html, body {
     height: 100%;
+}
+body {
     background-color: white;
     font-size: .7em;
 }
@@ -18,7 +20,9 @@ body, select {
 
 main {
     width: 90%;
-    margin: auto;
+    /* the negative margin needs to be matched below */
+    margin: 0 auto -2em;
+    min-height: 100%;
 }
 /*Header styles*/
 
@@ -192,10 +196,13 @@ a:active {
     color: #6CAED7;
 }
 
-
+/* Thanks to Ryan Fait, http://ryanfait.com/ */
 footer {
     clear: both;
-    bottom:0;
+
     width:100%;
+}
+footer, .push {
+height: 2em;
 }
 
