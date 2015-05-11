@@ -140,6 +140,10 @@ main .cell {
     font-weight: 300;
 }
 
+g.who:hover {
+    border: yellow 1px solid;
+}
+
 /*TOOLTIPS*/
 .d3-tip {
     z-index: 9999;

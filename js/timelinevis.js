@@ -177,7 +177,13 @@ TimelineVis.prototype.updateVis = function() {
 
     // when grouping bars
     // update bar widths - right now we have 6 bars in each group
-    this.bar_width = 2;
+    if(this.options.doTooltips)
+    {
+      this.bar_width = 10;
+    } else
+    {
+      this.bar_width = 2;
+    }
     this.bar_padding = 3;
     this.bar_place = this.bar_width + this.bar_padding;
     this.x1 = d3.scale.ordinal()
@@ -239,9 +245,8 @@ if(this.displayData.dates.length > 0)
             }
             return res;
         })
-        .on("mouseover", this.tooltip);
+        .on("click", this.tooltip);
         // .on("mouseover", this.tip.show)
-        // .on("click", this.tip.show);
      // .on("mouseout", this.tip.hide);
 
     // for all bars, new and changing

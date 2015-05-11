@@ -5,7 +5,8 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     this.options = _options || {
         "width"       : 350,  // match svg, set in CSS
         "height"      : 450   // just a placeholder - go to CSS
-    };
+    }
+    this.selected = null;
 
     this.filters = _filters || {
         "start_date"  : "2015-01-01",
@@ -37,7 +38,7 @@ WhoVis = function(_parentElement, _data, _eventHandler, _filters, _options) {
     }
 
     // defines constants
-    this.margin = {top: 30, right: 10, bottom: 10, left: 10};
+    this.margin = {top: 60, right: 10, bottom: 10, left: 10};
     this.width = this.options.width - this.margin.left - this.margin.right;
     // width is going to be as big as it needs to be for all bars
     //  but here is a default
@@ -127,6 +128,16 @@ WhoVis.prototype.initVis = function() {
         .attr("stop-color", "rgb(170, 10, 30)")
         .attr("stop-opacity", 1);
 
+    // add text to display heading
+    this.svg.append("text")
+            .attr("id", "title")
+            .attr("x", this.x_for_axis)
+            .attr("y", .5*this.margin.top)
+            .style("width", this.width)
+            .style("font-weight", "bold")
+            .style("text-anchor", "middle")
+            .text("# Contributors:");
+
     // add group to hold data display
     this.svg.append("g")
             .attr("class", "bars")
@@ -146,6 +157,10 @@ WhoVis.prototype.updateVis = function() {
 
     var that = this;
     var who_enter;
+
+    // update title
+    this.svg.select("#title")
+            .text("# Contributors: " + this.displayData.length);
 
     // if want more space between bars, change this.barPadding
     //   here, we display two bars per person, so we need the "2"
@@ -228,20 +243,6 @@ WhoVis.prototype.updateVis = function() {
                     return "false";
                 }
             })
-            .on("click", function(d) {
-                if (that.currentSelection != d.who) {
-                    that.currentSelection = d.who;
-                    $(that.eventHandler).trigger("authorChanged", d.who);
-                    that.filters.who = d.who;
-                    doSelect(that.filters.who);
-                } else { // If author has already been selected, reset selection
-                    that.currentSelection = "none";
-                    $(that.eventHandler).trigger("authorChanged", "none");
-                    that.filters.who = "none";
-                    doSelect(that.filters.who);
-                }
-            })
-            .on("mouseover", this.tooltip) // repurposed func.
             // .on("mouseover", that.tip.show)
             // .on("mouseover.collapse", function()
             // {
@@ -255,7 +256,20 @@ WhoVis.prototype.updateVis = function() {
             })
             .style("text-anchor", "end")
             .attr("x", this.x_for_axis - this.barPadding)
-            .attr("y", 1.75*this.barHeight);
+            .attr("y", 1.75*this.barHeight)
+            .on("click", function(d) {
+                if (that.currentSelection != d.who) {
+                    that.currentSelection = d.who;
+                    $(that.eventHandler).trigger("authorChanged", d.who);
+                    that.filters.who = d.who;
+                    doSelect(that.filters.who);
+                } else { // If author has already been selected, reset selection
+                    that.currentSelection = "none";
+                    $(that.eventHandler).trigger("authorChanged", "none");
+                    that.filters.who = "none";
+                    doSelect(that.filters.who);
+                }
+            });
 
     // move groups as needed
     whos.transition()
@@ -269,8 +283,8 @@ WhoVis.prototype.updateVis = function() {
     var bars = whos.selectAll("rect")  // each who has a code bar and issues bar
               .data(function(d)
               {
-                  return [ {"type" : "code",   "total" : d.total_code   },
-                           {"type" : "issues", "total" : d.total_issues }
+                  return [ {"type" : "code",   "total" : d.total_code, "parent" : d  },
+                           {"type" : "issues", "total" : d.total_issues, "parent" : d }
                          ];
               });
 
@@ -287,7 +301,8 @@ WhoVis.prototype.updateVis = function() {
                   }
                   return 0;
               })
-        .attr("height", that.barHeight);
+        .attr("height", that.barHeight)
+        .on("click", this.tooltip) // repurposed func. to see details
 
     bars.transition()
         .attr("width", function(d)
@@ -612,8 +627,9 @@ WhoVis.prototype.createWho = function (name) {
 };
 
 //Sets up the tooltip function
-WhoVis.prototype.tooltip = function(d)
+WhoVis.prototype.tooltip = function(e)
 {
+    var d = e.parent;
     var text = "Contributions by <br><b>" + d.who + "</b><br><br>";
     var spec_work = d.work.slice(0, 4);
     var test_work = d.work.slice(5, 9);
