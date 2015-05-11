@@ -158,7 +158,7 @@
 
   <!-- Footer -->
   <footer>
-    {% include footer.html %}
+    This dashboard was first designed and developed by Zona Kostic, Jennifer Le H&eacute;garet, and John Greeley.<br>It was last updated by Jennifer Le H&eacute;garet.
   </footer>
 
 
@@ -180,8 +180,6 @@
             category: ["spec", "test"],        // all, spec, or test
             specs: [],          // array of which specs to show.
                                 //    empty = all.
-  //          caniuse: false,     // change sunburst color
-                                // to reflect caniuse score
             who: "none",          // or can be one name
             who_sort: "code"   // or issues
         };
@@ -205,9 +203,9 @@
             var spec_vis = new SpecVis(d3.select("#specVis"), allData, selectionHandler, initialFilters);
             var who_vis = new WhoVis(d3.select(".who.scroll-pane"), allData, authorHandler, initialFilters);
             var timeline_zoom = new TimelineVis(d3.select("#timelineVis-zoom"), allData, {}, initialFilters,
-                { width:900, height:200, doBrush: false, doTooltips: true});
+                { width:900, height:150, doBrush: false, doTooltips: true});
             var timeline_whole = new TimelineVis(d3.select("#timelineVis-whole"), allData, brushHandler, initialFilters,
-                { width:500, height:200, doBrush: true, doTooltips: false});
+                { width:500, height:150, doBrush: true, doTooltips: false});
 
 
             //End preload animation

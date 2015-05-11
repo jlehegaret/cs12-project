@@ -60,21 +60,22 @@
       <li>reduced visual clutter by replacing side nav menu (which didn't collapse) and the "Where Am I" status messages with a new horizontal header containing navigation and filter options</li>
       <li>generated a legend using svg and css rather than an embedded image</li>
       <li>rotated the contributors graph and worked with box model to improve spacing of names and bars versus slider</li>
+      <li>created header row with an accessible dropdown menu</li>
       <li>worked extensively with flexbox to relayout the page</li>
       <li>investigated linear gradients for colors to apply them to legend boxes</li>
       <li>after finally succeeding to offer collapsible lists within tooltips thanks to two JavaScript libraries, decided to create a new area on the dashboard to display those details instead.  Used this technique for both the contributors list and the zoomed timeline</li>
       <li>more flexbox exploration to have zoom timeline appear first vertically and yet be on right when there is room for both on the same row</li>
-      <li>and more flexbox to space out legend from filter options</li>
       <li>found the jScrollPane library so as to move the Contributor scrollbar onto the left-hand side for better visual balance, design-wise</li>
-      <li>investigated if GitHub will support PHP so that I can make a PHP footer - no, it doesn't. However, it does leverage Jekyll. Installed Ruby, Jekyll, and created an "included" footer.html</li>
+      <li>investigated if GitHub will support PHP so that I can make a PHP footer - no, it doesn't. However, it does leverage Jekyll. I prepared an "_included" version of the footer, but then realized my dashboard needs a different footer than the rest, so went back to a simple manual version for now.</li>
       <li>cleaned up the color scheme of the sunburst graphic - when we use a Brewer-based ordinal scale for a ring, it's easier to keep it in D3</li>
-      <li>Revised CanIUse score color scheme and added color-coding to indicate spec status.  Sunburst now contains even more information!</li>
+      <li>Revised CanIUse score color scheme, added color-coding to indicate spec status, and expanded tooltip text in the sunburst.  The sunburst now contains even more information!</li>
     </ul>
     <h1>Compare</h1>
     <p>If you are interested, you can see the <a href="https://jlehegaret.github.io/cs171-project">previous version</a> of this Dashboard <a href="https://jlehegaret.github.io/cs171-project">here</a>.</p>
+    <div class="push"></div>
   </main>
   <footer>
-    {% include footer.html %}
+    This page written by Jennifer Le H&eacute;garet.
   </footer>
 </body>
 </html>

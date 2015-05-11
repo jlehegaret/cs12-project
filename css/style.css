@@ -21,11 +21,20 @@ body, select {
 main {
     width: 90%;
     /* the negative margin needs to be matched below */
-    margin: 0 auto -2em;
+    margin: 0 auto -3em;
     min-height: 100%;
 }
-/*Header styles*/
 
+/*Header styles*/
+/* Thanks to Ryan Fait, http://ryanfait.com/ */
+footer {
+    clear: both;
+    width:100%;
+    padding: .5em;
+}
+footer, .push {
+    height: 3em;
+}
 header, footer {
     color: white;
     background-color: #145184;
@@ -154,14 +163,7 @@ g.who:hover {
     padding-right: 5px;
     padding-left: 5px;
     max-width: 200px;
-    max-height: 200px;
 }
-
-/*#whoVis .d3-tip{
-    overflow-y: scroll;
-    overflow-x: auto;
-}*/
-
 
 /* DETAILS LIST */
 #details {
@@ -200,13 +202,5 @@ a:active {
     color: #6CAED7;
 }
 
-/* Thanks to Ryan Fait, http://ryanfait.com/ */
-footer {
-    clear: both;
 
-    width:100%;
-}
-footer, .push {
-height: 2em;
-}
 

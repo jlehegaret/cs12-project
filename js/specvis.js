@@ -601,25 +601,42 @@ SpecVis.prototype.tooltip = function() {
     return d3.tip()
         .offset([0, 0])
         .html(function (d) {
-            var text;
+            var text; var state = "";
             var link;
             var tooltip;
             // Links to specific issues at times
-            if (d.name !== undefined) {
-                if (d.name == "HTML") {
-                    text = "Spec";
+            if (d.name !== undefined)
+            {
+                if (d.name == "HTML")
+                {
+                    text = "Spec Edits for " + d.parent.name + " (" + d.parent.status + ")";
+                } else if(d.name === "Tests")
+                {
+                    text = "Test Dev. for " + d.parent.name + " (" + d.parent.status + ")";
                 }
-                else {
+                else
+                {
                     text = d.name;
                 }
-            } else {
+            } else // d.name was undefined, so take title
+            {
                 text = d.title;
             }
+
             if(d.type === "pull"
                 || d.type === "commit"
                 || d.type === "issue")
             {
-                text = d.state + " " + d.type + ": " + text;
+                if(d.type !== "commit")
+                {
+                    state = d.state + " ";
+                }
+                text = state + d.type + ": " + text
+                        + " (for " + d.parent.parent.status + " " + d.parent.parent.name + ")";
+            }
+            else if(d.type === "spec")
+            {
+                text = text + " (" + d.status + ")"
             }
 
             if(d.url !== undefined) {
