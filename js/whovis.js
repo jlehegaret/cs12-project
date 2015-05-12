@@ -75,14 +75,6 @@ WhoVis.prototype.initVis = function() {
     this.y = d3.scale.ordinal();
 
 
-    // // FOR CODE
-    // this.color_code = d3.scale.ordinal()
-    // .range(["#062B59", "#09458F", "#073874", "#09458F", "#0B52AA", "#0C5FC5"]);
-
-    // // FOR ISSUES
-    // this.color_issues = d3.scale.ordinal()
-    // .range(["crimson", "red"]);
-
     // FOR COLORS - FIRST, CODE
     var gradient = this.svg.append("defs")
                     .append("svg:linearGradient")
@@ -243,21 +235,16 @@ WhoVis.prototype.updateVis = function() {
                     return "false";
                 }
             })
-            // .on("mouseover", that.tip.show)
-            // .on("mouseover.collapse", function()
-            // {
-            //   var node = d3.select("body:last-child .d3-tip")[0][0];
-            //   if(node) { console.log(node); CollapsibleLists.applyTo(node); }
-            // })
-            // .on("mouseout", this.tip.hide)
-            .append("text") // every who has a name
-            .text(function(d){
-                return d.who
-            })
-            .style("text-anchor", "end")
-            .attr("x", this.x_for_axis - this.barPadding)
-            .attr("y", 1.75*this.barHeight)
-            .on("click", function(d) {
+            .append("rect") // sizeable container element
+            .attr("x", 0)
+            .attr("y", -this.barPadding)
+            .attr("width", this.width)
+            .attr("height", 2*this.barHeight + 3*this.barPadding)
+            .attr("stroke", "none")
+            .attr("fill", "none")
+            .attr("class", "who selector")
+            .on("click.display", this.tooltip) // repurposed func. to see details
+            .on("click.filters", function(d) {
                 if (that.currentSelection != d.who) {
                     that.currentSelection = d.who;
                     $(that.eventHandler).trigger("authorChanged", d.who);
@@ -271,16 +258,26 @@ WhoVis.prototype.updateVis = function() {
                 }
             });
 
+    // every who has a name
+    whos.append("text")
+        .text(function(d){
+            return d.who
+        })
+        .style("text-anchor", "end")
+        .attr("x", this.x_for_axis - this.barPadding)
+        .attr("y", 1.75*this.barHeight)
+        .attr("class", "who");
+
+
     // move groups as needed
     whos.transition()
         .attr("transform", function(d)
             {
                 return "translate(0, "+ that.y(d.who)+")";
             });
-        // .call(this.tip);
 
     // now deal with bars inside of the who group
-    var bars = whos.selectAll("rect")  // each who has a code bar and issues bar
+    var bars = whos.selectAll("rect.bar")  // each who has a code bar and issues bar
               .data(function(d)
               {
                   return [ {"type" : "code",   "total" : d.total_code, "parent" : d  },
@@ -290,7 +287,7 @@ WhoVis.prototype.updateVis = function() {
 
     bars.enter()
         .append("rect")
-        .attr("class", function(d){ return "bar " + d.type; })
+        .attr("class", function(d){ return "who bar " + d.type; })
         .attr("x", that.x_for_axis)
         .attr("y", function(d)
               {
@@ -301,8 +298,7 @@ WhoVis.prototype.updateVis = function() {
                   }
                   return 0;
               })
-        .attr("height", that.barHeight)
-        .on("click", this.tooltip) // repurposed func. to see details
+        .attr("height", that.barHeight);
 
     bars.transition()
         .attr("width", function(d)
@@ -627,9 +623,9 @@ WhoVis.prototype.createWho = function (name) {
 };
 
 //Sets up the tooltip function
-WhoVis.prototype.tooltip = function(e)
+WhoVis.prototype.tooltip = function(d)
 {
-    var d = e.parent;
+    // var d = e.parent;
     var text = "Contributions by <br><b>" + d.who + "</b><br><br>";
     var spec_work = d.work.slice(0, 4);
     var test_work = d.work.slice(5, 9);

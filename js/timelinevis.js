@@ -217,7 +217,9 @@ if(this.displayData.dates.length > 0)
     // create necessary containers for new dates
     dates.enter()
           .append("g")
-          .attr("class", "date");
+          .attr("class", "date")
+          .on("mouseover", console.log("Hi!"));
+          // .on("click", this.tooltip);
 
     // move around as necessary (?)
     dates.transition()
@@ -244,10 +246,7 @@ if(this.displayData.dates.length > 0)
                 res = res + " REC";
             }
             return res;
-        })
-        .on("click", this.tooltip);
-        // .on("mouseover", this.tip.show)
-        // .on("mouseout", );
+        });
 
     // for all bars, new and changing
     bars.transition()

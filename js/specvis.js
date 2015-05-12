@@ -648,36 +648,6 @@ SpecVis.prototype.tooltip = function() {
                 console.log(d);
             }
 
-            // // Spec-level-only tooltips
-            // if(d.type == "root" || d.type == "group"
-            //     || d.type == "spec")
-            // {
-            //     text = d.name;
-            //     if(d.type == "root") {
-            //         link = "https://www.w3.org";
-            //     } else {
-            //         link = d.url;
-            //     }
-            // } else if(d.type === "HTML" || d.type === "Tests")
-            // {
-            //     if(d.type === "HTML")
-            //     {
-            //         text = d.parent.name + " Spec Edits";
-            //     } else {
-            //         text = d.parent.name + " Test Suite";
-            //     }
-            //     link = d.parent.url;
-            // } else { // pull, issue, or commit
-            //     if(d.parent.name === "HTML")
-            //     {
-            //         text = d.parent.parent.name + " Spec Edits - ";
-            //     } else {
-            //         text = d.parent.parent.name + " Test Suite - ";
-            //     }
-            //     text = text + d.state + " " + d.type;
-            //     link = d.parent.parent.url;
-            // }
-
             tooltip = "<div class='d3-tip'>"
                 + "<a href='" + link
                 + "'>" + text
