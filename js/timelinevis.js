@@ -247,7 +247,7 @@ if(this.displayData.dates.length > 0)
         })
         .on("click", this.tooltip);
         // .on("mouseover", this.tip.show)
-     // .on("mouseout", this.tip.hide);
+        // .on("mouseout", );
 
     // for all bars, new and changing
     bars.transition()

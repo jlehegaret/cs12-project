@@ -72,6 +72,13 @@ main {
     padding-top: 1em;
 }
 
+main .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
 main .row {
     display: flex;
     flex-direction: row;
@@ -84,20 +91,12 @@ main .cell {
     margin: 0;
 }
 
-.timelines.row {
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-}
+/* Sidebar*/
 
-/*In filters list*/
-
-#viz_nav {
-    display: block;
+#sidebar {
     width: 17em;
-    height: 460px;
+    height: 500px;
+    float: left;
 }
 #filters {
     margin-top: 0;
@@ -149,9 +148,17 @@ main .cell {
     font-weight: 300;
 }
 
-g.who:hover {
-    border: yellow 1px solid;
+.timelines.row {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
 }
+
+/*g.who:hover {
+    border: yellow 1px solid;
+}*/
 
 /*TOOLTIPS*/
 .d3-tip {

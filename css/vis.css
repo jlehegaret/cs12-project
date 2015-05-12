@@ -10,10 +10,10 @@
 .LCWD {
     fill: #6baed6; /* copy changes to specVis canIUse*/
 }
-.PR {
+.CR {
     fill: #2171b5; /* copy changes to specVis canIUse*/
 }
-.CR {
+.PR {
     fill: #145184; /* copy changes to specVis canIUse*/
 }
 .REC {

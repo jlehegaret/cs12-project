@@ -65,14 +65,14 @@ Legend = function (_parentElement, _options)
                   row     : 5,
                   col     : 2
                },
-              {  text    : "PR",
-                  classes : "PR",
+              {  text    : "CR",
+                  classes : "CR",
                   width   : .2,
                   row     : 5,
                   col     : 3
                },
-              {  text    : "CR",
-                  classes : "CR",
+              {  text    : "PR",
+                  classes : "PR",
                   width   : .2,
                   row     : 5,
                   col     : 4

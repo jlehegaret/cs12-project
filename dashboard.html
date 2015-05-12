@@ -77,78 +77,80 @@
     </div> <!-- end of header row -->
   </header>
   <main>
-  <div class="row">
-    <div id="filters" class="cell">
-      <div class="row">
-        <div class="cell">
-            <!-- <label for="status">Viewing</label> -->
-            <select id="status" name="status">
-              <option value="all">
-                Open and Closed Items
-              </option>
-              <option value="open">
-                Open Items Only
-              </option>
-            </select>
-        </div>
-        <div class="cell">
-            <!-- <label for="category">Of</label> -->
-            <select id="category" name="category">
-              <option value="all">
-                Spec Edits and Test Dev.
-              </option>
-              <option value="spec">
-                Spec Edits Only
-              </option>
-              <option value="test">
-                Test Dev. Only
-              </option>
-            </select>
-        </div>
-        <div class="cell">
-              <span id="wgLabel">All Working Groups</span>
-              <!-- <label for="wgLabel"> Working Group</label> -->
-        </div>
-        <div class="cell">
-              <span id="specLabel">All</span>
-              <label for="wgLabel">Spec</label>
-        </div>
-        <div class="cell">
-          <label for="whoLabel">By</label>
-          <span id="whoLabel">All Contributors</span>
-        </div>
-        <div class="cell">
-          <label for="who_sort">sorted by</label>
-              <select id="who_sort" name="who_sort">
-                <option value="code">
-                  Lines of Code
+    <div id="sidebar" class="column">
+      <form id="filters" class="cell">
+        <div class="row">
+          <div class="cell">
+              <!-- <label for="status">Viewing</label> -->
+              <select id="status" name="status">
+                <option value="all">
+                  Open and Closed Items
                 </option>
-                <option value="issues">
-                  Number of Issues
+                <option value="open">
+                  Open Items Only
                 </option>
               </select>
-        </div>
-        <div class="cell">
-          <label for="timeframeLabelStart">From</label>
-              <span id="timeframeLabelStart">Date</span>
-        </div>
-        <div class="cell">
-          <label for="timeframeLabelEnd">To</label>
-          <span id="timeframeLabelEnd">Date</span>
-        </div>
-        <!-- Holdover of how the hash interaction
-            and filtering works -->
-        <div id="whereAmI" style="display:none" class="cell">
-          <span id="statusLabel">All Work Done</span>
-          <span id="categoryLabel">All Categories</span>
-        </div>
-        <div id="legend" class="cell"></div>
-      </div>
-    </div>
-  <div id="whoVis" class="who scroll-pane vizs cell"></div>
-  <div id="specVis" class="vizs cell"></div>
-  <div id="details" class="cell"></div>
-  </div> <!-- end first row content -->
+          </div>
+          <div class="cell">
+              <!-- <label for="category">Of</label> -->
+              <select id="category" name="category">
+                <option value="all">
+                  Spec Edits and Test Dev.
+                </option>
+                <option value="spec">
+                  Spec Edits Only
+                </option>
+                <option value="test">
+                  Test Dev. Only
+                </option>
+              </select>
+          </div>
+          <div class="cell">
+                <span id="wgLabel">All Working Groups</span>
+                <!-- <label for="wgLabel"> Working Group</label>  -->
+          </div>
+          <div class="cell">
+                <span id="specLabel">All</span>
+                <label for="wgLabel">Spec</label>
+          </div>
+          <div class="cell">
+            <label for="whoLabel">By</label>
+            <span id="whoLabel">All Contributors</span>
+          </div>
+          <div class="cell">
+            <label for="who_sort">Sorted by</label>
+                <select id="who_sort" name="who_sort">
+                  <option value="code">
+                    Lines of Code
+                  </option>
+                  <option value="issues">
+                    Number of Issues
+                  </option>
+                </select>
+          </div>
+          <div class="cell">
+            <label for="timeframeLabelStart">From</label>
+                <span id="timeframeLabelStart">Date</span>
+          </div>
+          <div class="cell">
+            <label for="timeframeLabelEnd">To</label>
+            <span id="timeframeLabelEnd">Date</span>
+          </div>
+          <!-- Holdover of how the hash interaction
+              and filtering works -->
+          <div id="whereAmI" style="display:none" class="cell">
+            <span id="statusLabel">All Work Done</span>
+            <span id="categoryLabel">All Categories</span>
+          </div>
+        </div> <!-- end of filters "row" -->
+      </form>
+      <div id="legend" class="cell"></div>
+    </div> <!-- end of sidebar -->
+    <div class="row">
+      <div id="whoVis" class="who scroll-pane vizs cell"></div>
+      <div id="specVis" class="vizs cell"></div>
+      <div id="details" class="cell"></div>
+    </div> <!-- end first row content -->
     <div class = "timelines row">
       <div id="timelineVis-zoom" class="vizs cell"></div>
       <div id="timelineVis-whole" class="vizs cell"></div>
