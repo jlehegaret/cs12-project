@@ -51,18 +51,21 @@
     stroke : #08306b;
 }
 
-/* CONTRIBUTOR LIST */
+/* HOVER PROPERTIES */
 
-.who.selector {
+.who.selector, .date.selector {
     pointer-events: all;
 }
-.who.selector:hover {
+.who.selector:hover, .date.selector:hover {
     stroke: rgba(255, 255, 0, .25);
     fill: rgba(255, 255, 0, .25);
 }
-.who.bar, text.who {
+.who.bar, text.who, rect.timebar {
     pointer-events: none;
 }
+
+/* CONTRIBUTOR LIST */
+
 .who[selected="false"] {
     opacity: .5;
 }

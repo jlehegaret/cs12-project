@@ -186,6 +186,7 @@ TimelineVis.prototype.updateVis = function() {
     }
     this.bar_padding = 3;
     this.bar_place = this.bar_width + this.bar_padding;
+    this.numBars = 6; // currently, we are using six slots for bars
     this.x1 = d3.scale.ordinal()
                       .domain([ "PUB", "COM",
                                 "PR_C", "PR_O",
@@ -217,9 +218,18 @@ if(this.displayData.dates.length > 0)
     // create necessary containers for new dates
     dates.enter()
           .append("g")
-          .attr("class", "date")
-          .on("mouseover", console.log("Hi!"));
-          // .on("click", this.tooltip);
+          .attr("class", "date");
+
+    dates.append("rect")
+          .attr("x", 0)
+          .attr("y", 0)
+          .attr("width", this.numBars *
+                  (this.bar_width + this.bar_padding))
+          .attr("height", this.height)
+          .attr("stroke", "none")
+          .attr("fill", "none")
+          .attr("class", "date selector")
+          .on("click", this.tooltip);
 
     // move around as necessary (?)
     dates.transition()
@@ -728,32 +738,90 @@ TimelineVis.prototype.tooltip = function(d)
                   "ISS_O" : "Opened Issues",
                   "ISS_C" : "Closed Issues"
                 };
-// console.log(d);
+    var num_relevant;
+    var spec_work; var test_work;
+    var name;
 
-     // "<ul class='collapsibleList'>"
-     //           + "<li>"
-    var text =  "<b>" + d.details.length + " " + codes[d.type]
-               + "</b><br>on<br><b>" + d.date + "</b>"
-               // </li>"
-               + "<br><br><ul>";
-    d.details.forEach(function(dd)
+    var text = "Work Done on <br><b>" + d.date
+                + "</b><br><br>";
+
+    // list spec work
+    num_relevant = d.actions.filter(function (d)
+                      { return d.cat === "spec"; })
+                  .length;
+
+    if(num_relevant === 0)
     {
-        text = text + "<li>";
-        // define how to access this dd
-        if(d.type === "PUB")
+      text = text + "Spec Edits - none<br>";
+    }
+    else
+    {
+      text = text + "Spec Edits"
+                  + "<ul class='collapsibleList'>";
+      d.actions.forEach(function(dd)
+      {
+        if(dd.cat === "spec")
         {
-            text = text + "<a href='" + dd.url + "'>"
-            + dd.title + "</a><br>" +
-            dd.status;
+          text = text + "<li><a href='#'>"
+                        + codes[dd.type]
+                        + " (" + dd.details.length
+                        + ")</a>"
+                        + "<ul>";
+          dd.details.forEach(function(ddd)
+          {
+              text = text + "<li>"
+              if(dd.type === "PUB")
+              {
+                  text = text + "<a href='" + ddd.url + "'>"
+                              + ddd.title + "</a><br>"
+                              + ddd.status;
+              }
+              else
+              {
+console.log(ddd);
+                if(dd.type === "COM")
+                {
+                  name = ddd.login;
+                }
+                else if(dd.type === "PR_O" || dd.type === "ISS_O")
+                {
+                  name = ddd.author.login;
+                }
+                else if(dd.type === "PR_C")
+                {
+                  if(ddd.merged_by !== undefined)
+                  {
+                    name = ddd.merged_by.login;
+                  }
+                  else
+                  {
+                    name = ddd.closed_by;
+                  }
+                }
+                else if (dd.type === "ISS_C")
+                {
+                  name = ddd.closed_by;
+                }
+                text = text + name + " - "
+                            + "<a href='" + ddd.html_url + "'>"
+                            + ddd.title + "</a>";
+              }
+              text = text + "</li>";
+          });
+          text = text + "</ul></li>"; // end the type's listitem
         }
-        else
-        {
-            text = text + "<a href='" + dd.html_url + "'>"
-            + dd.title + "</a>";
-        }
-        text = text + "</li>";
-    });
-    text = text + "</ul>"; //</li></ul>";
+      });
+      text = text + "</ul>";
+    }
+    text = text + "<br>"; // leaving tooltip div placeholder
+
+    // // DO IT AGAIN list test work
+    // //   CONSOLIDATE LATER
+
+
+
+
+
 
   d3.select("#details").html(text);
   CollapsibleLists.applyTo(d3.select("#details")[0][0]);
