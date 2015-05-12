@@ -35,7 +35,7 @@
                       <span>Introduction</span></a>
                     </li>
                     <li><a href='dashboard.html'>
-                      <span>The Project</span></a>
+                      <span>Dashboard</span></a>
                     </li>
                     <li><a href='https://github.com/jlehegaret/cs12-project'>
                     <span>The GitHub Repo</span></a>
@@ -53,19 +53,20 @@
   <main>
     <h1>Git the Web Forward</h1>
     <h2>Goals and Purpose</h2>
-    <q>A brief statement about the purpose and goals of the site.  Who is the primary audience for the site?  Are there secondary audiences?</q>
+    <blockquote>A brief statement about the purpose and goals of the site.  Who is the primary audience for the site?  Are there secondary audiences?</blockquote>
     <p>The purpose of this site is to help the W3C manage the work done on its specs by many scattered contributors. The audience is formed of very savvy web developers who are helping the push the web forward however best they can. A secondary audience might be the media, if any reporter covering the state of the web wants to delve into such granular data as this. Another secondary audience is, of course, the CS-E12 staff who are grading this work.</p>
     <h2>Implementation</h2>
-    <q>A brief discussion of the implementation of the site. Provide links to pages of your site. Clearly indicate the home page and also the "function" component. Discuss the implementation of the site (including content, design, and technology).</q>
+    <blockquote>A brief discussion of the implementation of the site. Provide links to pages of your site. Clearly indicate the home page and also the "function" component. Discuss the implementation of the site (including content, design, and technology).</blockquote>
     <p>The heart of the website <b>is</b> the function component - the <a href="dashboard.html">Dashboard</a>.However, for the purposes of this project, its <a href="index.html">home page</a> is an introduction to that <a href="dashboard.html">Dashboard</a>, and we have supporting pages consisting of <a href="#">this report</a> (which you are now reading) and also some <a href="cs12-notes.html">supplementary notes</a>.</p>
-    <p>One fantastic by-product of serving our particular primary audience is that we can count on our users having the latest browsers with JavaScript enabled.</p>
+    <p>One fantastic by-product of serving our particular primary audience is that we can count on our users having the latest browsers with JavaScript enabled.  This page was primarily tested with Google Chrome 42.0.2311.135 m on Windows 8.1</p>
     <p>To obtain the data, I had help from W3Cers, who used node.js with the GitHub and CanIUse APIs to create JSON files for me.</p>
     <p>To process the data and create the main visualizations which are our content, my teammates from the CS-171 class and I used the amazing <a href="https://d3js.org">d3.js library</a> developed by Mike Bostock.</p>
     <p>I then, on behalf of the CS-E12 project, revised the design of the dashboard using CSS and various jQuery libraries.  For details about this stage, please view the <a href="cs12-notes.html">CS-E12 Project Notes</a>.</p>
+    <p>I will note here that one of the two CSS pages I authored does not validate using W3C's service, as it is mainly used to set SVG properties. However, the layout-oriented CSS page does validate, as does the HTML.
 
 
     <h2>Future Directions</h2>
-    <q>A brief discussion of the future directions of the site.  Since this is only the beginning of the site, briefly mention ideas you have for future work and/or expansion.  Reflect on lessons you learned. What worked well? What parts of the project are you particularly pleased with, and why? What parts of the project need additional work? If you were to approach this project again, what you do the same? What would you do differently?</q>
+    <blockquote>A brief discussion of the future directions of the site.  Since this is only the beginning of the site, briefly mention ideas you have for future work and/or expansion.  Reflect on lessons you learned. What worked well? What parts of the project are you particularly pleased with, and why? What parts of the project need additional work? If you were to approach this project again, what you do the same? What would you do differently?</blockquote>
     <p>This is such an exciting project for me, I have many many ideas for how it can be expanded.  Some have to do with the server side and the data - how can we have this page automatically get new data, and how better can the data be formatted for our visualization needs (also, we are just missing some data, like commits for the test suites, which is important to get in there).  The code processing the data definitely needs more work - there is even some data that we already have that is not captured properly by our processing and so is not included on the Dashboard.</p>
     <p>Other ideas have to do with the dashboard itself - it would be fun to add a force-directed layout of how contributors are connected, as W3C requested, and to add an option to view timeline data with the various specs being differentiated rather the types of work.  But of course, before that, all of the bugs hiding in the current functionality should be hunted down and addressed.</p>
     <p>As for lessons learned - I learned that jQuery libraries are indeed super useful, super timesavers.  Maybe we don't know how elegant and efficient the code is underneath, but life is short and these libraries get the job done.  Thank you, CS-E12, for opening my eyes.</p>

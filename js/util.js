@@ -241,6 +241,7 @@ Legend.prototype.createLegend = function()
               .attr("y", that.bar_height/2 + that.padding)
               .attr("dy", 0)
               .attr("text-anchor", "center")
+              .attr("fill", "white")
               .text(function(d){ return d.text; });
      });
 };
