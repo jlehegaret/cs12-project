@@ -66,13 +66,20 @@
 
 /* CONTRIBUTOR LIST */
 
-.who[selected="false"] {
+.who text {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 300;
+}
+.who[selected="yes"] {
+    opacity: 1;
+}
+.who[selected="neutral"] {
+    opacity: 1;
+    fill: darkslategray;
+}
+.who[selected="no"] {
     opacity: .5;
 }
-.who[selected="true"] {
-    opacity: 1;  /* or remove? */
-}
-
 
 /*TIMELINE STUFF*/
 

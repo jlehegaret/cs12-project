@@ -204,19 +204,6 @@ WhoVis.prototype.updateVis = function() {
     });
     this.x_issues.domain([0, this.max]);
 
-    var doSelect = function(who) {
-         whos
-            .attr("selected", function(d) {
-                if (that.filters.who === null || that.filters.who === "none") {
-                    return "true";
-                } else if (that.filters.who === d.who) {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            });
-    };
-
     var whos = this.svg.selectAll("g.bars")
                         .selectAll("g.who")
                         .data(this.displayData,
@@ -226,15 +213,6 @@ WhoVis.prototype.updateVis = function() {
         whos.enter()
             .append("g")
             .attr("class", "who")
-            .attr("selected", function(d) {
-                if (that.filters.who === null || that.filters.who === "none") {
-                    return "true";
-                } else if (that.filters.who === d.who) {
-                    return "true";
-                } else {
-                    return "false";
-                }
-            })
             .append("rect") // sizeable container element
             .attr("x", 0)
             .attr("y", -this.barPadding)
@@ -243,20 +221,19 @@ WhoVis.prototype.updateVis = function() {
             .attr("stroke", "none")
             .attr("fill", "none")
             .attr("class", "who selector")
-            .on("click.display", this.tooltip) // repurposed func. to see details
             .on("click.filters", function(d) {
-                if (that.currentSelection != d.who) {
+                if (that.currentSelection !== d.who)
+                {
                     that.currentSelection = d.who;
-                    $(that.eventHandler).trigger("authorChanged", d.who);
                     that.filters.who = d.who;
-                    doSelect(that.filters.who);
-                } else { // If author has already been selected, reset selection
+                } else
+                { // If author has already been selected, reset selection
                     that.currentSelection = "none";
-                    $(that.eventHandler).trigger("authorChanged", "none");
                     that.filters.who = "none";
-                    doSelect(that.filters.who);
                 }
-            });
+                $(that.eventHandler).trigger("authorChanged", that.filters.who);
+            })
+            .on("click.display", this.tooltip) // repurposed func. to see details;
 
     // every who has a name
     whos.append("text")
@@ -268,13 +245,28 @@ WhoVis.prototype.updateVis = function() {
         .attr("y", 1.75*this.barHeight)
         .attr("class", "who");
 
-
     // move groups as needed
     whos.transition()
         .attr("transform", function(d)
             {
                 return "translate(0, "+ that.y(d.who)+")";
-            });
+            })
+        .attr("selected", function(d)
+        {
+          if (that.filters.who === null
+              || that.filters.who === "none")
+          {
+              return "neutral";
+          }
+          else if(that.filters.who === d.who)
+          {
+              return "yes";
+          }
+          else
+          {
+              return "no";
+          }
+         });
 
     // now deal with bars inside of the who group
     var bars = whos.selectAll("rect.bar")  // each who has a code bar and issues bar
@@ -452,7 +444,8 @@ WhoVis.prototype.processData = function processData(d, category) {
                     who.total_code += (c.line_added + c.line_deleted);
                     who.work[1 + plus].total += (c.line_added + c.line_deleted);
                     who.work[1 + plus].details.push(c);
-                } else
+                }
+                else
                 {
                     // console.log(that.filters.actions.indexOf("PR_O"));
                     // console.log(c.created_at);
@@ -531,6 +524,7 @@ console.log("Looking for " + c.closed_by);
 //TODO:method comments
 WhoVis.prototype.findWho = function findWho(name) {
     var that = this;
+    var found;
 
     if(!this.processedData.has(name)){
         this.processedData.set(name, this.createWho(name));
@@ -625,6 +619,8 @@ WhoVis.prototype.createWho = function (name) {
 //Sets up the tooltip function
 WhoVis.prototype.tooltip = function(d)
 {
+  if(d.who === d3.select("#whoLabel")[0][0].textContent)
+    {
     // var d = e.parent;
     var text = "Contributions by <br><b>" + d.who + "</b><br><br>";
     var spec_work = d.work.slice(0, 4);
@@ -697,6 +693,12 @@ WhoVis.prototype.tooltip = function(d)
       text = text + "</ul>";
     }
     text = text + ""; // leaving tooltip div placeholder
+  }
+  else // we have just reselected the same contributor,
+       // which means that all contributors will show
+  {
+    text = "";
+  }
 
   d3.select("#details").html(text);
   CollapsibleLists.applyTo(d3.select("#details")[0][0]);
@@ -721,6 +723,14 @@ WhoVis.prototype.select = function(d) {
 
 
 // EVENT HANDLERS
+
+WhoVis.prototype.onAuthorChange = function(author) {
+
+// filters have actually already been updated, so just refresh
+    this.wrangleData();
+    this.updateVis();
+};
+
 
 WhoVis.prototype.onTimelineChange = function(selectionStart, selectionEnd) {
 

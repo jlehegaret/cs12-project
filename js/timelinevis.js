@@ -740,10 +740,11 @@ TimelineVis.prototype.tooltip = function(d)
                 };
     var num_relevant;
     var spec_work; var test_work;
-    var name;
 
-    var text = "Work Done on <br><b>" + d.date
-                + "</b><br><br>";
+    var name = d3.select("#whoLabel")[0][0].textContent;
+
+    var text = "Work Done by <b>" + name + "</b><br>"
+              + "on <b>" + d.date + "</b><br><br>";
 
     // list spec work
     num_relevant = d.actions.filter(function (d)
@@ -778,7 +779,6 @@ TimelineVis.prototype.tooltip = function(d)
               }
               else
               {
-console.log(ddd);
                 if(dd.type === "COM")
                 {
                   name = ddd.login;
