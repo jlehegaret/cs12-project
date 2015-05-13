@@ -56,25 +56,24 @@
     <h1>Log</h1>
     <p>These are the resulting, CS-E12-oriented improvements:</p>
     <ul>
-      <li>Cleaned out remnants of dead ends (unused JavaScript libraries and CSS files)</li>
-      <li>Reduced visual clutter by replacing side nav menu (which didn't collapse) and the "Where Am I" status messages with a new horizontal header containing navigation and filter options</li>
-      <li>Generated a legend using svg and css rather than an embedded image</li>
-      <li>Rotated the contributors graph and worked with box model to improve spacing of names and bars versus slider</li>
-      <li>Created header row with an accessible dropdown menu</li>
-      <li>Worked extensively and repeatedly with flexbox to relayout the page</li>
-      <li>Investigated linear gradients for colors to apply them to legend boxes</li>
-      <li>After finally succeeding to offer collapsible lists within tooltips thanks to two JavaScript libraries, decided to create a new area on the dashboard to display those details instead.  Used this technique for both the contributors list and the zoomed timeline</li>
-      <li>Found the jScrollPane library so as to move the Contributor scrollbar onto the left-hand side for better visual balance, design-wise</li>
-      <li>Investigated if GitHub will support PHP so that I can make a PHP footer - no, it doesn't. However, it does leverage Jekyll. I prepared an "_included" version of the footer, but then realized my dashboard needs a different footer than the rest, so I went back to a simple manual version for now.</li>
-      <li>Cleaned up the color scheme of the sunburst graphic - when we use a Brewer-based ordinal scale for a ring, it's easier to keep it in D3</li>
+      <li>Cleaned out remnants of dead ends (unused JavaScript libraries and CSS files).</li>
+      <li>Reduced visual clutter by replacing side nav menu (which didn't collapse) and the "Where Am I" status messages with a new horizontal header containing navigation and filter options.</li>
+      <li>Generated a legend using svg and css rather than an embedded image./li>
+      <li>Rotated the contributors graph and worked with box model to improve spacing of names and bars versus slider.</li>
+      <li>Created header row with an accessible dropdown menu.</li>
+      <li>Worked extensively and repeatedly with flexbox to relayout the page.</li>
+      <li>Investigated linear gradients for colors to apply them to legend boxes<./li>
+      <li>After finally succeeding to offer collapsible lists within tooltips thanks to two JavaScript libraries, decided to create a new area on the dashboard to display those details instead.  Used this technique for both the contributors list and the zoomed timeline.</li>
+      <li>Found the jScrollPane library so as to move the Contributor scrollbar onto the left-hand side for better visual balance, design-wise<./li>
+      <li>Investigated if GitHub will support PHP so that I can make a PHP footer - no, it doesn't. However, it does leverage Jekyll. I prepared an "_included" version of the footer, but then realized my dashboard needs a different footer than the rest, so, in the end, I am just using a simple manual version for now.</li>
+      <li>Cleaned up the color scheme of the sunburst graphic - when we use a Brewer-based ordinal scale for a ring, it's easier to keep it in D3.</li>
       <li>Revised CanIUse score color scheme, added color-coding to indicate spec status, and expanded tooltip text in the sunburst.  The sunburst now contains even more information!</li>
-      <li>Checked validity of documents and addressed errors.</li>
-      <li>Added hover state highlighting to the contributors and timeline graph (zoom version only)</li>
+      <li>Added hover state highlighting to the contributors and timeline graph (zoom version only, by design).</li>
       <li>Hunted down a Contributors list selection bug and improved formatting reactions to events.</li>
-      <li>Improved tooltips in sunburst.  Began to identify holes in the data caused more by the data processing approach than to the source data.</li>
-      <li></li>
-      <li></li>
-      <li></li>
+      <li>Again improved tooltips in sunburst and attempted to add more information to the Details pane elsewhere.  Began to identify holes in the data caused more by the data processing approach than to the source data.</li>
+      <li>Updated walk-through text.</li>
+      <li>Began to investigate how to put a warning or somesuch if a user tries to view the dashboard with an older / non-JavaScript-enabled browser, but then was shamed for even having thought of doing this by reading through various articles, such as <a href="https://github.com/yui/yui3/wiki/Graded-Browser-Support">this one</a>. So, I will leave it as-is for now until I better understand the best approach to take.</li>
+      <li>Checked validity of documents and addressed errors.</li>
     </ul>
     <h1>Compare</h1>
     <p>If you are interested, you can see the <a href="https://jlehegaret.github.io/cs171-project">previous version</a> of this Dashboard <a href="https://jlehegaret.github.io/cs171-project">here</a>.</p>
