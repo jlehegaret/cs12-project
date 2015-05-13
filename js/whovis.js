@@ -396,7 +396,8 @@ WhoVis.prototype.processData = function processData(d, category) {
             if(c.date >= that.filters.start_date
                && c.date <= that.filters.end_date)
             {
-                who = that.findWho(c.author);
+console.log(c);
+                who = that.findWho(c.login);
                 who.total_code += (c.line_added + c.line_deleted);
                 who.work[plus].total += (c.line_added + c.line_deleted);
                 who.work[plus].details.push(c);

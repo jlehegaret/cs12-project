@@ -69,7 +69,10 @@
                 </ul>
             </li>
             <li>
-              <a href="http://jlehegaret.github.io/cs12-project/dashboard.html">Reset</a>
+              <a id="reset"
+                 href="http://jlehegaret.github.io/cs12-project/dashboard.html">
+                 Reset
+              </a>
             </li>
           </ul>
         </nav>
@@ -335,6 +338,11 @@
                     {
                         element: '#filters',
                         intro: "You can also use the menu to view only the work that is currently outstanding – pull requests waiting to be merged, and issues that still need to be addressed - by choosing to view <b> Open Items Only</b>.<br><br>The sunburst then reveals which specs have outstanding issues, and which ones don’t.<br><br>The contributors list turns into a list of who are waiting the the most issues to be resolved or code to be merged.<br><br>And the timeline shows how old those unresolved issues are getting.",
+                        position: 'right'
+                    },
+                    {
+                        element: '#reset',
+                        intro: "To get back to the default set of filters, use the reset button.",
                         position: 'right'
                     },
                     {
