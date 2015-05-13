@@ -601,8 +601,8 @@ SpecVis.prototype.tooltip = function() {
     return d3.tip()
         .offset([0, 0])
         .html(function (d) {
-            var text; var state = "";
-            var link;
+            var state = ""; var date; var who;
+            var intro_text = ""; var text = ""; var link = "";
             var tooltip;
             // Links to specific issues at times
             if (d.name !== undefined)
@@ -619,6 +619,7 @@ SpecVis.prototype.tooltip = function() {
                     text = d.name;
                 }
             } else // d.name was undefined, so take title
+                   // these are the commits, pulls, and issues
             {
                 text = d.title;
             }
@@ -631,8 +632,26 @@ SpecVis.prototype.tooltip = function() {
                 {
                     state = d.state + " ";
                 }
-                text = state + d.type + ": " + text
-                        + " (for " + d.parent.parent.status + " " + d.parent.parent.name + ")";
+                if(d.type === "commit"
+                   || d.state === "open")
+                {
+                    date = d.created_at;
+                } else
+                {
+                    if(d.closed_at !== undefined)
+                    {
+                        date = d.closed_at;
+                    }
+                    else
+                    {
+                        date = "date n.a.";
+                    }
+                }
+
+                intro_text =  date + "<br>"
+                        + state + d.type + "<br>"
+                        + d.parent.parent.name
+                        + " ( " + d.parent.parent.status + " )<br><br>";
             }
             else if(d.type === "spec")
             {
@@ -649,6 +668,7 @@ SpecVis.prototype.tooltip = function() {
             }
 
             tooltip = "<div class='d3-tip'>"
+                + intro_text
                 + "<a href='" + link
                 + "'>" + text
                 + "</a></div>";

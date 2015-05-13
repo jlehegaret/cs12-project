@@ -228,7 +228,16 @@ if(this.displayData.dates.length > 0)
           .attr("height", this.height)
           .attr("stroke", "none")
           .attr("fill", "none")
-          .attr("class", "date selector")
+          .attr("class", function(d)
+          {
+              if(that.options.doTooltips)
+              {
+                return "date selector";
+              } else
+              {
+                return "date";
+              }
+          })
           .on("click", this.tooltip);
 
     // move around as necessary (?)
@@ -817,7 +826,74 @@ TimelineVis.prototype.tooltip = function(d)
 
     // // DO IT AGAIN list test work
     // //   CONSOLIDATE LATER
+    // list spec work
+    num_relevant = d.actions.filter(function (d)
+                      { return d.cat === "test"; })
+                  .length;
 
+    if(num_relevant === 0)
+    {
+      text = text + "Test Dev. - none<br>";
+    }
+    else
+    {
+      text = text + "Test Dev."
+                  + "<ul class='collapsibleList'>";
+      d.actions.forEach(function(dd)
+      {
+        if(dd.cat === "test")
+        {
+          text = text + "<li><a href='#'>"
+                        + codes[dd.type]
+                        + " (" + dd.details.length
+                        + ")</a>"
+                        + "<ul>";
+          dd.details.forEach(function(ddd)
+          {
+              text = text + "<li>"
+              if(dd.type === "PUB")
+              {
+                  text = text + "<a href='" + ddd.url + "'>"
+                              + ddd.title + "</a><br>"
+                              + ddd.status;
+              }
+              else
+              {
+                if(dd.type === "COM")
+                {
+                  name = ddd.login;
+                }
+                else if(dd.type === "PR_O" || dd.type === "ISS_O")
+                {
+                  name = ddd.author.login;
+                }
+                else if(dd.type === "PR_C")
+                {
+                  if(ddd.merged_by !== undefined)
+                  {
+                    name = ddd.merged_by.login;
+                  }
+                  else
+                  {
+                    name = ddd.closed_by;
+                  }
+                }
+                else if (dd.type === "ISS_C")
+                {
+                  name = ddd.closed_by;
+                }
+                text = text + name + " - "
+                            + "<a href='" + ddd.html_url + "'>"
+                            + ddd.title + "</a>";
+              }
+              text = text + "</li>";
+          });
+          text = text + "</ul></li>"; // end the type's listitem
+        }
+      });
+      text = text + "</ul>";
+    }
+    text = text + "<br>"; // leaving tooltip div placeholder
 
 
 

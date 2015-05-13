@@ -183,6 +183,11 @@ main .cell {
 #details ul {
     padding: 0;
 }
+
+.collapsibleList li:first-of-type {
+    padding-top: .5em;
+}
+
 .collapsibleList li {
     list-style-type: none;
     cursor:auto;

@@ -213,37 +213,39 @@ WhoVis.prototype.updateVis = function() {
         whos.enter()
             .append("g")
             .attr("class", "who")
-            .append("rect") // sizeable container element
-            .attr("x", 0)
-            .attr("y", -this.barPadding)
-            .attr("width", this.width)
-            .attr("height", 2*this.barHeight + 3*this.barPadding)
-            .attr("stroke", "none")
-            .attr("fill", "none")
-            .attr("class", "who selector")
-            .on("click.filters", function(d) {
-                if (that.currentSelection !== d.who)
-                {
-                    that.currentSelection = d.who;
-                    that.filters.who = d.who;
-                } else
-                { // If author has already been selected, reset selection
-                    that.currentSelection = "none";
-                    that.filters.who = "none";
-                }
-                $(that.eventHandler).trigger("authorChanged", that.filters.who);
-            })
-            .on("click.display", this.tooltip) // repurposed func. to see details;
+            .call(function(who)
+            {
+              who.append("rect") // sizeable container element
+              .attr("x", 0)
+              .attr("y", -that.barPadding)
+              .attr("width", that.width)
+              .attr("height", 2*that.barHeight + 3*that.barPadding)
+              .attr("stroke", "none")
+              .attr("fill", "none")
+              .attr("class", "who selector")
+              .on("click.filters", function(d) {
+                  if (that.currentSelection !== d.who)
+                  {
+                      that.currentSelection = d.who;
+                      that.filters.who = d.who;
+                  } else
+                  { // If author has already been selected, reset selection
+                      that.currentSelection = "none";
+                      that.filters.who = "none";
+                  }
+                  $(that.eventHandler).trigger("authorChanged", that.filters.who);
+              })
+              .on("click.display", that.tooltip);
 
-    // every who has a name
-    whos.append("text")
-        .text(function(d){
-            return d.who
-        })
-        .style("text-anchor", "end")
-        .attr("x", this.x_for_axis - this.barPadding)
-        .attr("y", 1.75*this.barHeight)
-        .attr("class", "who");
+              who.append("text") // every who has one name
+              .text(function(d){
+                  return d.who
+              })
+              .style("text-anchor", "end")
+              .attr("x", that.x_for_axis - that.barPadding)
+              .attr("y", 1.75*that.barHeight)
+              .attr("class", "who");
+            });
 
     // move groups as needed
     whos.transition()
@@ -386,9 +388,6 @@ WhoVis.prototype.processData = function processData(d, category) {
     // need to change element number depending
     // on category being processed
     var plus = category === "spec" ? 0 : 5;
-
-// console.log("data:");
-// console.log(d);
 
     // COMMIT FUNCTIONALITY
     if (d.commits && that.filters.actions.indexOf("COM") !== -1) {
@@ -619,10 +618,12 @@ WhoVis.prototype.createWho = function (name) {
 //Sets up the tooltip function
 WhoVis.prototype.tooltip = function(d)
 {
+console.log(d);
   if(d.who === d3.select("#whoLabel")[0][0].textContent)
     {
     // var d = e.parent;
     var text = "Contributions by <br><b>" + d.who + "</b><br><br>";
+    var date;
     var spec_work = d.work.slice(0, 4);
     var test_work = d.work.slice(5, 9);
     var codes = { "COM" : "Commits",
@@ -637,7 +638,7 @@ WhoVis.prototype.tooltip = function(d)
       text = text + "Spec Edits - none<br>";
     } else
     {
-      text = text + "Spec Edits"
+      text = text + "Spec Edits<br>"
                   + "<ul class='collapsibleList'>";
       spec_work.forEach(function(d)
       {
@@ -650,7 +651,21 @@ WhoVis.prototype.tooltip = function(d)
                         + "<ul>";
           d.details.forEach(function(dd)
           {
+            if(d.type === "COM")
+            {
+              date = dd.date;
+            }
+            else if(d.type === "PR_O" || d.type === "ISS_O")
+            {
+              date = dd.created_at;
+            }
+            else if(d.type === "PR_C" || d.type === "ISS_C")
+            {
+              date = dd.closed_at;
+            }
+
               text = text + "<li>"
+                      + date + ":<br>"
                       + "<a href='" + dd.html_url + "'>"
                       + dd.title + "</a>";
                       + "</li>";
@@ -682,7 +697,20 @@ WhoVis.prototype.tooltip = function(d)
                         + "<ul>";
           d.details.forEach(function(dd)
           {
+            if(d.type === "COM")
+            {
+              date = dd.date;
+            }
+            else if(d.type === "PR_O" || d.type === "ISS_O")
+            {
+              date = dd.created_at;
+            }
+            else if(d.type === "PR_C" || d.type === "ISS_C")
+            {
+              date = dd.closed_at;
+            }
               text = text + "<li>"
+                      + date + ":<br>"
                       + "<a href='" + dd.html_url + "'>"
                       + dd.title + "</a>";
                       + "</li>";

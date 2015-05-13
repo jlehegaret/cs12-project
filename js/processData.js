@@ -42,12 +42,14 @@ var processData = function( _caniuse, _groups, _specs, _tests) {
                     if(dd.closed_at && !dd.closed_by) {
                         dd.closed_by = "unknown";
                     }
+                    dd.spec = d.title;
                     return dd;
                 });
             }
             if(d.commits) {
                 d.commits = d.commits.map(function(dd) {
                     dd.date = stripTime(dd.date);
+                    dd.spec = d.title;
                     return dd;
                 });
             }
@@ -111,6 +113,7 @@ var processData = function( _caniuse, _groups, _specs, _tests) {
         if(d.closed_at && d.closed_by === undefined) {
             d.closed_by = "unknown";
         }
+// console.log(d);
         return d;
     });
     allData.caniuse = caniuse;

@@ -56,22 +56,22 @@
     <h1>Log</h1>
     <p>These are the resulting, CS-E12-oriented improvements:</p>
     <ul>
-      <li>cleaned out remnants of dead ends (unused JavaScript libraries and CSS files)</li>
-      <li>reduced visual clutter by replacing side nav menu (which didn't collapse) and the "Where Am I" status messages with a new horizontal header containing navigation and filter options</li>
-      <li>generated a legend using svg and css rather than an embedded image</li>
-      <li>rotated the contributors graph and worked with box model to improve spacing of names and bars versus slider</li>
-      <li>created header row with an accessible dropdown menu</li>
-      <li>worked extensively and repeatedly with flexbox to relayout the page</li>
-      <li>investigated linear gradients for colors to apply them to legend boxes</li>
-      <li>after finally succeeding to offer collapsible lists within tooltips thanks to two JavaScript libraries, decided to create a new area on the dashboard to display those details instead.  Used this technique for both the contributors list and the zoomed timeline</li>
-      <li>found the jScrollPane library so as to move the Contributor scrollbar onto the left-hand side for better visual balance, design-wise</li>
-      <li>investigated if GitHub will support PHP so that I can make a PHP footer - no, it doesn't. However, it does leverage Jekyll. I prepared an "_included" version of the footer, but then realized my dashboard needs a different footer than the rest, so I went back to a simple manual version for now.</li>
-      <li>cleaned up the color scheme of the sunburst graphic - when we use a Brewer-based ordinal scale for a ring, it's easier to keep it in D3</li>
+      <li>Cleaned out remnants of dead ends (unused JavaScript libraries and CSS files)</li>
+      <li>Reduced visual clutter by replacing side nav menu (which didn't collapse) and the "Where Am I" status messages with a new horizontal header containing navigation and filter options</li>
+      <li>Generated a legend using svg and css rather than an embedded image</li>
+      <li>Rotated the contributors graph and worked with box model to improve spacing of names and bars versus slider</li>
+      <li>Created header row with an accessible dropdown menu</li>
+      <li>Worked extensively and repeatedly with flexbox to relayout the page</li>
+      <li>Investigated linear gradients for colors to apply them to legend boxes</li>
+      <li>After finally succeeding to offer collapsible lists within tooltips thanks to two JavaScript libraries, decided to create a new area on the dashboard to display those details instead.  Used this technique for both the contributors list and the zoomed timeline</li>
+      <li>Found the jScrollPane library so as to move the Contributor scrollbar onto the left-hand side for better visual balance, design-wise</li>
+      <li>Investigated if GitHub will support PHP so that I can make a PHP footer - no, it doesn't. However, it does leverage Jekyll. I prepared an "_included" version of the footer, but then realized my dashboard needs a different footer than the rest, so I went back to a simple manual version for now.</li>
+      <li>Cleaned up the color scheme of the sunburst graphic - when we use a Brewer-based ordinal scale for a ring, it's easier to keep it in D3</li>
       <li>Revised CanIUse score color scheme, added color-coding to indicate spec status, and expanded tooltip text in the sunburst.  The sunburst now contains even more information!</li>
       <li>Checked validity of documents and addressed errors.</li>
       <li>Added hover state highlighting to the contributors and timeline graph (zoom version only)</li>
       <li>Hunted down a Contributors list selection bug and improved formatting reactions to events.</li>
-      <li></li>
+      <li>Improved tooltips in sunburst.  Began to identify holes in the data caused more by the data processing approach than to the source data.</li>
       <li></li>
       <li></li>
       <li></li>
